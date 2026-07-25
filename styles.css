@@ -4,6 +4,7 @@
     --primary-dark: #f0932b;
     --secondary-color: #2c3e50; /* Deep blue for knowledge */
     --bg-color: #f5f6fa;
+    --bg-gradient: linear-gradient(135deg, #f5f6fa 0%, rgba(247, 183, 49, 0.15) 100%);
     --card-bg: rgba(255, 255, 255, 0.7);
     --text-main: #2f3640;
     --text-muted: #718093;
@@ -15,12 +16,13 @@
     --transition-speed: 0.3s;
 }
 
-[data-theme="dark"] {
+html[data-theme="dark"] {
     /* Dark Theme Variables */
     --primary-color: #fbc531;
     --primary-dark: #e1b12c;
     --secondary-color: #ecf0f1;
     --bg-color: #192a56; /* Deep dark blue */
+    --bg-gradient: linear-gradient(135deg, #192a56 0%, #101c3a 100%);
     --card-bg: rgba(25, 42, 86, 0.6);
     --text-main: #f5f6fa;
     --text-muted: #dcdde1;
@@ -39,11 +41,11 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     line-height: 1.6;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
+    transition: background-color var(--transition-speed), color var(--transition-speed), background var(--transition-speed);
     overflow-x: hidden;
     
     /* Background animated gradient */
-    background: linear-gradient(135deg, var(--bg-color) 0%, rgba(247, 183, 49, 0.15) 100%);
+    background: var(--bg-gradient);
     background-attachment: fixed;
 }
 
