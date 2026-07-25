@@ -321,7 +321,22 @@ body {
     }
 
     .mobile-menu-btn {
-        display: block;
+        display: flex;
+        position: fixed;
+        bottom: calc(2rem + env(safe-area-inset-bottom));
+        right: 1.5rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: #fff;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        top: auto;
+        left: auto;
+        transform: none;
     }
 
     .top-header {
