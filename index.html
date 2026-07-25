@@ -2,230 +2,656 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="人生100幸福處方箋 - 空大課程最強考前寶典，涵蓋全章節重點與精彩案例，幫助您輕鬆掌握終身學習與生命統整的核心精華。">
-    <!-- iOS Web App Optimization -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>人生100幸福處方箋 | 神級寶典</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <div class="app-container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h2>📖 幸福處方箋</h2>
-                <p>考場神級寶典</p>
+            <div class="sidebar-brand">
+                <div class="brand-icon">📖</div>
+                <div class="brand-text">
+                    <h2>幸福處方箋</h2>
+                    <p>神級考前寶典</p>
+                </div>
             </div>
+
+            <div class="sidebar-divider"></div>
+
             <ul class="nav-links">
-                <li><a href="#ch0" class="active">預備篇：學前指引</a></li>
-                <li><a href="#ch1">第一章：社會轉型</a></li>
-                <li><a href="#ch2">第二章：百年人生</a></li>
-                <li><a href="#ch3">第三章：學校制度</a></li>
-                <li><a href="#ch4">第四章：終身學習</a></li>
-                <li><a href="#ch5">第五章：實踐與AAR</a></li>
-                <li><a href="#ch6">第六章：生命統整</a></li>
+                <li>
+                    <a href="#hero" class="nav-item" data-ch="0">
+                        <span class="nav-num">0</span>
+                        <span class="nav-label">預備篇：學前指引</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#ch1" class="nav-item" data-ch="1">
+                        <span class="nav-num">1</span>
+                        <span class="nav-label">社會轉型與學習觀</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#ch2" class="nav-item" data-ch="2">
+                        <span class="nav-num">2</span>
+                        <span class="nav-label">百年人生的轉機</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#ch3" class="nav-item" data-ch="3">
+                        <span class="nav-num">3</span>
+                        <span class="nav-label">學校制度的侷限</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#ch4" class="nav-item" data-ch="4">
+                        <span class="nav-num">4</span>
+                        <span class="nav-label">終身學習的脈絡</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#ch5" class="nav-item" data-ch="5">
+                        <span class="nav-num">5</span>
+                        <span class="nav-label">AAR 自我實驗</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#ch6" class="nav-item" data-ch="6">
+                        <span class="nav-num">6</span>
+                        <span class="nav-label">生命統整大成</span>
+                    </a>
+                </li>
             </ul>
-            <div class="theme-toggle">
+
+            <div class="sidebar-footer">
                 <button id="theme-btn" aria-label="Toggle Dark Mode">
-                    <span class="icon">🌙</span>
-                    <span class="text">切換深色模式</span>
+                    <span class="theme-icon">🌙</span>
+                    <span class="theme-label">深色模式</span>
+                    <span class="theme-toggle-pill"></span>
                 </button>
             </div>
         </nav>
 
         <!-- Main Content -->
-        <main class="main-content">
-            <header class="top-header">
-                <button id="menu-btn" class="mobile-menu-btn" aria-label="Open Menu">☰</button>
-                <h1>《人生100幸福處方箋》全章節重點</h1>
-                <p class="subtitle">空大官方課程教材地毯式梳理，考場實戰必備</p>
-            </header>
+        <main class="main-content" id="main-content">
 
-            <div class="content-wrapper">
-                <!-- Chapter 0 -->
-                <section id="ch0" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>預備篇：學前指引與課程目標 (第 0 章)</h2>
-                        <span class="badge">精神指引</span>
+            <!-- Hero Section -->
+            <section id="hero" class="hero-section" scroll-margin-top="0">
+                <div class="hero-particles" id="particles"></div>
+                <div class="hero-content">
+                    <div class="hero-badge">✨ 空大考前神級寶典</div>
+                    <h1 class="hero-title">
+                        人生 <span class="hero-number">100</span><br>
+                        <span class="hero-subtitle-text">幸福處方箋</span>
+                    </h1>
+                    <p class="hero-desc">全六章地毯式重點梳理 · 考場實戰必備</p>
+                    <div class="hero-tags">
+                        <span class="hero-tag">AAR 法則</span>
+                        <span class="hero-tag">動態拼圖</span>
+                        <span class="hero-tag">恩送</span>
+                        <span class="hero-tag">老年期超越</span>
+                        <span class="hero-tag">軟著陸</span>
                     </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>課程核心精神：</strong> 學習不是為了考試，而是為了找到適合自己的生活方式。課程鼓勵大家從「被動接收者」轉變為「主動的實踐者（Doer）」。</li>
-                            <li><strong>揚棄傳統管理思維：</strong> 面對人生 100 年，不要再用講求完美的 <strong>PDCA (計畫-執行-考核-行動)</strong> 來逼迫自己，這會帶來極大的焦慮。</li>
-                            <li><strong>推崇 AAR 生活實驗：</strong> 改用 <strong>AAR (Anticipation預期 ➔ Action行動 ➔ Reflection反思)</strong>。抱著玩心與期待去嘗試，在行動中反思，從做中學。</li>
-                            <li><strong>學習的五大節奏：</strong> 每章皆依循「觀念對談 ➔ 他山之石 ➔ 大師開講 ➔ 在地連結 ➔ 重點迴盪」的節奏進行。</li>
-                        </ol>
-                    </div>
-                </section>
+                    <a href="#ch0" class="hero-cta">開始複習 →</a>
+                </div>
+                <div class="hero-scroll-hint">
+                    <div class="scroll-arrow"></div>
+                </div>
+            </section>
 
-                <!-- Chapter 1 -->
-                <section id="ch1" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>第一章：社會轉型與學習觀的變遷</h2>
-                        <span class="badge">核心觀念</span>
+            <!-- Chapter 0 -->
+            <section id="ch0" class="chapter-card" data-chapter="0">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">預備篇</span>
+                    <span class="badge badge--spirit">精神指引</span>
+                </div>
+                <h2 class="chapter-title">學前指引與課程目標</h2>
+                <div class="chapter-body">
+                    <div class="key-concept-grid">
+                        <div class="key-concept">
+                            <div class="kc-icon">🎯</div>
+                            <div class="kc-content">
+                                <h3>課程核心精神</h3>
+                                <p>學習不是為了考試，而是找到適合自己的生活方式。從「被動接收者」轉變為<strong>主動的實踐者（Doer）</strong>。</p>
+                            </div>
+                        </div>
+                        <div class="key-concept">
+                            <div class="kc-icon">🔄</div>
+                            <div class="kc-content">
+                                <h3>揚棄 PDCA</h3>
+                                <p>面對百年人生，不再用<strong>PDCA（計畫-執行-考核-行動）</strong>逼迫自己，這會帶來極大焦慮。</p>
+                            </div>
+                        </div>
+                        <div class="key-concept key-concept--highlight">
+                            <div class="kc-icon">🌀</div>
+                            <div class="kc-content">
+                                <h3>推崇 AAR 生活實驗</h3>
+                                <p><strong>Anticipation 預期 ➔ Action 行動 ➔ Reflection 反思</strong><br>抱著玩心期待，在行動中反思，從做中學。</p>
+                            </div>
+                        </div>
+                        <div class="key-concept">
+                            <div class="kc-icon">🎵</div>
+                            <div class="kc-content">
+                                <h3>學習的五大節奏</h3>
+                                <p>觀念對談 ➔ 他山之石 ➔ 大師開講 ➔ 在地連結 ➔ <strong>重點迴盪</strong></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>價值觀的轉型與焦慮：</strong>
-                                <ul>
-                                    <li><strong>從單一走向多樣：</strong> 過去工業社會是一條「單一穩定的路」（好學校➔好公司➔退休），用金錢與物質衡量幸福。如今選擇變多，價值觀多樣化，反而讓人產生「跟不上社會」的焦慮與不安。</li>
-                                    <li><strong>從「佔有」到「存在」：</strong> 社會從追求物質的「佔有慾望社會」，轉向追求在人際中被認可的「存在慾望社會」。</li>
-                                </ul>
-                            </li>
-                            <li><strong>決定幸福感的三大要素 (主觀幸福感)：</strong> 過去擇偶看「三高」。現在決定幸福的前三名：<strong>1. 身體健康、2. 良好的人際關係、3. 自我決定</strong>。</li>
-                            <li><strong>伊斯特林悖論 (Easterlin Paradox)：</strong> 經濟發展到一定水準後，人們的滿足感與幸福感反而會停滯或下降。因為追求更多金錢需要付出更大心力，反而被金錢束縛。</li>
-                            <li><strong>學校制度的起源與侷限：</strong>
-                                <ul>
-                                    <li><strong>為工業社會服務：</strong> 為了培養「思想統一、動作一致」的標準化勞動力。</li>
-                                    <li><strong>圓形監獄 (Panopticon)：</strong> 監控思想的設計，採取「灌輸式、集體主義」教學。</li>
-                                </ul>
-                            </li>
-                            <li><strong>兩種危機與學習的再定義：</strong> 學習不再只是為了「獲取知識與技術來工作」，而是為了<strong>「創造新的人際連結、互相幫助的關係」</strong>。</li>
-                            <li><strong>從學歷社會邁向「學習型社會」：</strong> OECD 提倡<strong>「回流教育 (Recurrent Education)」</strong>。日本 2006 年修訂《教育基本法》保障終身學習。</li>
-                            <li><strong>少子高齡化：</strong> 從「多生多死」到「少生少死」，少子高齡化是人類能安心長壽的禮物。</li>
-                            <li class="case-study"><strong>國內外實踐案例：</strong>
-                                <ul>
-                                    <li><strong>日本岡媽媽之 TOMO：</strong> 「稍微打開一點點」，空屋變社區客廳與沙坑，晚間成國中生安全防護網。</li>
-                                    <li><strong>台中審計新村：</strong> 將「圍牆打開」，荒廢宿舍成青年創業聚落，沒有圍牆的無齡學校。</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Chapter 2 -->
-                <section id="ch2" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>第二章：百年人生與學習的轉機</h2>
-                        <span class="badge">人生設計</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>百年人生的挑戰與英雄劇本的終結：</strong> 過去的「英雄之旅」劇本已不適用。現代人生是持續不斷的動態故事，可以轉彎、重來。</li>
-                            <li><strong>人口結構的變遷：</strong> 戰前金字塔（多生多死），現在轉變為柱狀的<strong>「棺材形狀」</strong>（少生多死，活到自然壽命的高齡者）。</li>
-                            <li><strong>打破對老化的迷思：</strong>
-                                <ul>
-                                    <li><strong>流體智力：</strong> 記憶力、反應速度，隨年齡下降。</li>
-                                    <li><strong>晶體智力：</strong> 解決問題、人際溝通能力，會<strong>隨著年齡增長而持續上升</strong>（薑是老的辣）。老化速度是多樣化且個別化的。</li>
-                                </ul>
-                            </li>
-                            <li><strong>成為彼此的「故鄉」與老年期超越：</strong> 故鄉是人與人的包容關係。長輩在關懷下一代中離開利害關係，發揮人類本質，獲得極高的自我肯定 (Gerotranscendence)。</li>
-                            <li class="case-study"><strong>國內外實踐案例：</strong>
-                                <ul>
-                                    <li><strong>日本小雞蛋計畫 (Tamago)：</strong> 有閒長輩主動照顧社區缺乏陪伴的孩子（他人的孫子女）。長輩獲得生命價值，孩子得到溫暖。</li>
-                                    <li><strong>台中南區公所「藝文牆」：</strong> 四樓牆面成微型藝廊，展出長青學院長輩工藝，給予極大「出場」機會與成就感。</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                </section>
+            <!-- Chapter 1 -->
+            <section id="ch1" class="chapter-card" data-chapter="1">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">第一章</span>
+                    <span class="badge badge--core">核心觀念</span>
+                </div>
+                <h2 class="chapter-title">社會轉型與學習觀的變遷</h2>
+                <div class="chapter-body">
+                    <div class="point-list">
+                        <div class="point-item">
+                            <div class="point-marker">1</div>
+                            <div class="point-content">
+                                <h3>價值觀的轉型</h3>
+                                <div class="compare-row">
+                                    <div class="compare-box compare-box--old">
+                                        <div class="compare-label">工業時代 ❌</div>
+                                        <p>單一穩定的路：好學校➔好公司➔退休<br>用金錢衡量幸福（<strong>佔有</strong>慾望社會）</p>
+                                    </div>
+                                    <div class="compare-arrow">→</div>
+                                    <div class="compare-box compare-box--new">
+                                        <div class="compare-label">現代 ✅</div>
+                                        <p>價值多樣化，在人際中被認可<br>（<strong>存在</strong>慾望社會）</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Chapter 3 -->
-                <section id="ch3" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>第三章：學校制度的侷限與非正式學習空間</h2>
-                        <span class="badge">空間重塑</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>學校制度的本質與侷限：</strong> 工業時代產物，過度強調競爭，剝奪個體多樣性，將人視為均質的存在。</li>
-                            <li><strong>社會教育的核心功能（甜甜圈理論）：</strong> 社會福利像甜甜圈的空洞。<strong>「學習」就是貫穿空洞的核心</strong>。居民應擺脫「消費者心態」，政府則是「陪跑教練」。</li>
-                            <li><strong>非正式學習的價值：</strong> 廟口泡茶看似無目標，其實是建立信任連結的「社會教室」。</li>
-                            <li class="case-study"><strong>國內外實踐案例：</strong>
-                                <ul>
-                                    <li><strong>島根縣益田市「對話場 (Katariba)」：</strong> 大人不說教，分享真實失敗人生。引發連鎖效應，高中生也主動分享生命故事給國中生。</li>
-                                    <li><strong>國中生自辦「竹燈會」：</strong> 疫情間為撫慰長輩，國中生主動提案辦燈會，展現自治精神。</li>
-                                    <li><strong>台中南和里剪紙：</strong> 打破教與學界線，樂齡教師與長輩互相陪伴肯定。</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                </section>
+                        <div class="point-item">
+                            <div class="point-marker">2</div>
+                            <div class="point-content">
+                                <h3>主觀幸福感的三大要素</h3>
+                                <div class="rank-row">
+                                    <div class="rank-item"><span class="rank-num">🥇</span><span>身體健康</span></div>
+                                    <div class="rank-item"><span class="rank-num">🥈</span><span>良好的人際關係</span></div>
+                                    <div class="rank-item rank-item--key"><span class="rank-num">🥉</span><span><strong>自我決定</strong>（取代學歷與收入）</span></div>
+                                </div>
+                                <p class="point-note">過去擇偶的「三高（身高、學歷、收入）」已不再是幸福核心。</p>
+                            </div>
+                        </div>
 
-                <!-- Chapter 4 -->
-                <section id="ch4" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>第四章：終身學習的政策脈絡與制度建構</h2>
-                        <span class="badge">制度發展</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>終身學習的起源：</strong> 保羅·朗格蘭提出。傑羅皮提倡「自我決定的學習權利」。學習是為掌握生活「主導權」。</li>
-                            <li><strong>回流教育與有薪教育假：</strong> 學習像「撒胡椒」均勻分佈各階段，政府需保障有薪教育假，讓員工敢中途下車學習。</li>
-                            <li><strong>地方創生與自尊心的恢復：</strong> 過去農民被迫賭博或打工。豐田市引入都市青年向長輩學習農業，長輩重拾「自豪感」。</li>
-                            <li><strong>社會處方箋：</strong> 靜岡調查發現，運動加<strong>「社會參與」</strong>能使死亡率降一半。跟家人同住卻「孤食」的男性死亡風險達 1.5 倍。</li>
-                            <li class="case-study"><strong>國內外實踐案例：</strong>
-                                <ul>
-                                    <li><strong>台中南區長青學院 (官學民合作)：</strong> 區公所出場地，空大出師資，長輩穿學士袍圓夢落淚。</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                </section>
+                        <div class="point-item">
+                            <div class="point-marker">3</div>
+                            <div class="point-content">
+                                <h3>伊斯特林悖論 <em>Easterlin Paradox</em></h3>
+                                <p>經濟到一定水準後，幸福感反而<strong>停滯或下降</strong>。追求更多金錢，反而被金錢束縛。日本約在 <strong>1984 年</strong>出現幸福感反轉分歧點。</p>
+                            </div>
+                        </div>
 
-                <!-- Chapter 5 -->
-                <section id="ch5" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>第五章：終身學習的實踐（AAR與自我實驗）</h2>
-                        <span class="badge">行動實踐</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>重新定義學習與失敗：</strong> 過去沒考 100 分叫失敗。現在學習是「做實驗」，試了不適合就換方向，這不叫失敗。</li>
-                            <li><strong>「學習即生活」：</strong> 跟早餐店阿姨閒聊是學習。家庭共學打破權威，建立平等圓桌對話。</li>
-                            <li><strong>AAR 生活實驗法：</strong>
-                                <ul>
-                                    <li><strong>Anticipation：</strong> 帶著好奇心期待。</li>
-                                    <li><strong>Action：</strong> 無壓力嘗試。</li>
-                                    <li><strong>Reflection：</strong> 反思檢視，像颱風般捲入熱情。</li>
+                        <div class="point-item">
+                            <div class="point-marker">4</div>
+                            <div class="point-content">
+                                <h3>學校制度的侷限</h3>
+                                <ul class="sub-list">
+                                    <li><strong>圓形監獄 Panopticon</strong>：老師站高處監控，灌輸式、集體主義教學，培養標準化勞動力。</li>
+                                    <li>年輕人「喜歡學習，但討厭學校的束縛」。</li>
                                 </ul>
-                            </li>
-                            <li><strong>社會的動態拼圖模式：</strong> 每個人都有凹凸面（優缺點），尋找互補夥伴，形成動態拼圖。</li>
-                            <li class="case-study"><strong>國內外實踐案例（開放性共同體）：</strong>
-                                <ul>
-                                    <li><strong>日本豐田市「自給家族」：</strong> 都市青年「預付買米」分攤風險，假日去種田被當孫子疼，從交易合夥人昇華為「第二故鄉的家人」。</li>
-                                    <li><strong>台中「審計新村」：</strong> 不依賴完美 PDCA，先推產品 (Action) 再彈性調整 (Reflection)。</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                </section>
+                            </div>
+                        </div>
 
-                <!-- Chapter 6 -->
-                <section id="ch6" class="chapter-card">
-                    <div class="chapter-header">
-                        <h2>第六章：學習即存在的倫理實踐與生命統整</h2>
-                        <span class="badge">終極大成</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ol>
-                            <li><strong>打破標準化：</strong> 拒絕工業社會的刻板標籤，在動態拼圖中找到「剛剛好」的歸屬感（入坑）。</li>
-                            <li><strong>從報恩到「恩送」(Pay it forward)：</strong> 將善意無條件傳遞給周遭或下一代，成為創造價值的行動者 (Doer)。</li>
-                            <li><strong>軟著陸與心理故鄉：</strong> 退休高管活躍老化後，85歲易面臨孤獨。必須提前準備「軟著陸」，讓自己成為下一代的「心理故鄉」。</li>
-                            <li><strong>關懷下一代與老年期超越：</strong> 關懷下一代能讓人脫離世俗算計，進入「深邃的宇宙」，平靜迎接最後時光。</li>
-                            <li class="case-study"><strong>國內外實踐案例：</strong>
-                                <ul>
-                                    <li><strong>日本國中生當「社區理事長」：</strong> 打破年齡階級，長輩互相尊重聽從指揮，展現完美跨世代平權。</li>
-                                    <li><strong>沖繩「攤販式公民館」：</strong> 在公園擺傘，公務員「什麼都不做」留白，反激發居民搶當輪值館長，小孩主動幫忙。</li>
-                                    <li><strong>台中彩虹眷村：</strong> 爺爺畫筆拯救廢墟，彩虹超人吉他注入靈魂。證明「只要有深厚情感，哪裡都能成新故鄉」。</li>
-                                </ul>
-                            </li>
-                        </ol>
-                    </div>
-                </section>
+                        <div class="point-item">
+                            <div class="point-marker">5</div>
+                            <div class="point-content">
+                                <h3>學習的新定義</h3>
+                                <p>不再是「獲取知識技術來工作」，而是<strong>「創造新的人際連結、互相幫助的關係」</strong>。學習是培養土壤，建立防護網，避免孤立。</p>
+                            </div>
+                        </div>
 
-            </div>
-            
+                        <div class="point-item">
+                            <div class="point-marker">6</div>
+                            <div class="point-content">
+                                <h3>邁向「學習型社會」</h3>
+                                <p>OECD 提倡<strong>回流教育（Recurrent Education）</strong>，日本 2006 年修訂《教育基本法》保障終身學習。少子高齡化是人類能安心長壽的<strong>禮物</strong>，非悲觀訊號。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="case-header">🌍 國內外實踐案例</div>
+                        <div class="case-grid">
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>岡媽媽之 TOMO（日本）</strong>
+                                    <p>空屋遺贈社區，「稍微打開一點點」，白天成社區客廳、沙坑，晚間成國中生安全防護網。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇹🇼</div>
+                                <div class="case-body">
+                                    <strong>台中審計新村</strong>
+                                    <p>省政府荒廢宿舍「把圍牆打開」，引進青年創業，成充滿生命力的<strong>無齡學校</strong>。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 2 -->
+            <section id="ch2" class="chapter-card" data-chapter="2">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">第二章</span>
+                    <span class="badge badge--design">人生設計</span>
+                </div>
+                <h2 class="chapter-title">百年人生與學習的轉機</h2>
+                <div class="chapter-body">
+                    <div class="point-list">
+                        <div class="point-item">
+                            <div class="point-marker">1</div>
+                            <div class="point-content">
+                                <h3>英雄劇本的終結</h3>
+                                <p>過去「英雄之旅」（離鄉打拚➔打敗魔王➔光榮退休）已不適用。現代人生是<strong>持續不斷的動態故事</strong>，可以轉彎、重來，每階段都可以是自己的主角。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">2</div>
+                            <div class="point-content">
+                                <h3>人口結構的變遷</h3>
+                                <div class="compare-row">
+                                    <div class="compare-box compare-box--old">
+                                        <div class="compare-label">過去 🔺</div>
+                                        <p>多生多死<br>金字塔型</p>
+                                    </div>
+                                    <div class="compare-arrow">→</div>
+                                    <div class="compare-box compare-box--new">
+                                        <div class="compare-label">現在 ⬜</div>
+                                        <p>少生少死<br><strong>棺材形狀</strong>（柱狀）</p>
+                                    </div>
+                                </div>
+                                <p class="point-note">嬰兒死亡率：過去千分之 190 → 現在千分之 1.9，這是全人類的成就！</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">3</div>
+                            <div class="point-content">
+                                <h3>打破老化迷思：兩種智力</h3>
+                                <div class="compare-row">
+                                    <div class="compare-box compare-box--old">
+                                        <div class="compare-label">流體智力 📉</div>
+                                        <p>記憶力、反應速度<br>隨年齡<strong>下降</strong></p>
+                                    </div>
+                                    <div class="compare-arrow">vs</div>
+                                    <div class="compare-box compare-box--new">
+                                        <div class="compare-label">晶體智力 📈</div>
+                                        <p>解決問題、人際溝通<br>隨年齡<strong>持續上升</strong>（薑是老的辣）</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">4</div>
+                            <div class="point-content">
+                                <h3>老年期超越 <em>Gerotranscendence</em></h3>
+                                <p>長輩在關懷下一代的過程中，離開現實利害關係，發揮人類本質，獲得極高的滿足感與自我肯定。故鄉不只是土地，而是充滿關懷的<strong>人與人之間的關係</strong>。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="case-header">🌍 國內外實踐案例</div>
+                        <div class="case-grid">
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>小雞蛋計畫 Tamago（日本）</strong>
+                                    <p>有閒長輩主動照顧缺乏陪伴的孩子（他人的孫子女 Tamago/雞蛋諧音）。長輩獲得生命價值，孩子得到溫暖防護網。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇹🇼</div>
+                                <div class="case-body">
+                                    <strong>台中南區公所「藝文牆」</strong>
+                                    <p>四樓牆面打造微型藝廊，展出長青學院長輩竹編工藝，打破冷冰冰的公家機關距離感，給予長輩極大成就感。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 3 -->
+            <section id="ch3" class="chapter-card" data-chapter="3">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">第三章</span>
+                    <span class="badge badge--space">空間重塑</span>
+                </div>
+                <h2 class="chapter-title">學校制度的侷限與非正式學習空間</h2>
+                <div class="chapter-body">
+                    <div class="point-list">
+                        <div class="point-item">
+                            <div class="point-marker">1</div>
+                            <div class="point-content">
+                                <h3>學校制度的本質</h3>
+                                <p>工業時代的產物：培養<strong>思想統一、動作整齊</strong>的標準化勞動力。「教與學分開」，過度競爭，剝奪個體多樣性。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">2</div>
+                            <div class="point-content">
+                                <h3>甜甜圈理論</h3>
+                                <p>社會資源與福利政策像甜甜圈，中間有空洞，彼此缺乏連結。<strong>「學習」就是貫穿空洞的核心（0 變為 1）</strong>，串聯各社會功能，建立社區防護網。</p>
+                                <ul class="sub-list">
+                                    <li>居民應擺脫「消費者心態」，不過度依賴政府補助。</li>
+                                    <li>政府角色是「<strong>陪跑教練</strong>」，社區需自主營運。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">3</div>
+                            <div class="point-content">
+                                <h3>非正式學習的價值</h3>
+                                <p>廟口泡茶、榕樹下閒聊看似無 KPI，卻是建立信任連結的<strong>「社會教室」</strong>。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="case-header">🌍 國內外實踐案例</div>
+                        <div class="case-grid">
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>對話場 Katariba（島根縣益田市）</strong>
+                                    <p>大人不說教，分享真實失敗人生。53% 孩子原本覺得大人無聊，對話後連鎖效應：高中生主動分享 15 年人生給國中生。11 年超過萬人參與（全市三成人口）。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>國中生自辦「竹燈會」</strong>
+                                    <p>2020 疫情期間，國中生為撫慰孤單長輩，主動利用當地竹子辦燈會。學習激發自治精神，不依賴政府。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇹🇼</div>
+                                <div class="case-body">
+                                    <strong>台中南和里剪紙與泡茶課</strong>
+                                    <p>打破教與學的界線。樂齡教師坦言：「不是我在陪長輩，而是長輩在陪我」，這是互相肯定價值的社會教室。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 4 -->
+            <section id="ch4" class="chapter-card" data-chapter="4">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">第四章</span>
+                    <span class="badge badge--policy">制度發展</span>
+                </div>
+                <h2 class="chapter-title">終身學習的政策脈絡與制度建構</h2>
+                <div class="chapter-body">
+                    <div class="point-list">
+                        <div class="point-item">
+                            <div class="point-marker">1</div>
+                            <div class="point-content">
+                                <h3>終身學習的起源</h3>
+                                <ul class="sub-list">
+                                    <li><strong>保羅·朗格蘭（1965）</strong>：提出「終身教育」，讓成人跟上社會變化。</li>
+                                    <li><strong>傑羅皮</strong>：強調「<strong>自我決定的學習權利</strong>」，關注弱勢群體。</li>
+                                    <li>學習不再是老人休閒，而是掌握財務與生活「<strong>主導權</strong>」的必備過程。</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">2</div>
+                            <div class="point-content">
+                                <h3>回流教育 × 有薪教育假</h3>
+                                <p>學習像「<strong>撒胡椒</strong>」，均勻分佈人生各階段。工作遇瓶頸（如需懂 AI）→ 回學校學 → 再回職場。<br>政府必須保障<strong>有薪教育假</strong>，讓員工敢「中途下車」學習。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">3</div>
+                            <div class="point-content">
+                                <h3>地方創生與自尊心的恢復</h3>
+                                <p>過去「不種田就給補助」剝奪農民自尊（被迫在「賭博」或「吸毒」中選擇）。豐田市引入都市青年學農業，從 10 人發展至 60 人，長輩重拾<strong>「自豪感」</strong>。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">4</div>
+                            <div class="point-content">
+                                <h3>社會處方箋（健康實證）</h3>
+                                <div class="stat-row">
+                                    <div class="stat-box">
+                                        <div class="stat-num">30%</div>
+                                        <div class="stat-label">運動＋營養降低死亡率</div>
+                                    </div>
+                                    <div class="stat-box stat-box--key">
+                                        <div class="stat-num">&gt;50%</div>
+                                        <div class="stat-label">加上<strong>社會參與</strong>後降低死亡率（靜岡縣 14,000 人追蹤）</div>
+                                    </div>
+                                    <div class="stat-box stat-box--warn">
+                                        <div class="stat-num">1.5×</div>
+                                        <div class="stat-label">跟家人同住卻「孤食」男性的死亡風險</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="case-header">🌍 國內外實踐案例</div>
+                        <div class="case-grid">
+                            <div class="case-item">
+                                <div class="case-flag">🇹🇼</div>
+                                <div class="case-body">
+                                    <strong>台中南區長青學院（官學民合作）</strong>
+                                    <p>區公所提供場地，空中大學提供師資。長輩在社區接觸大學資源，結業時穿上學士袍，激動落淚，圓了兒時夢想。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 5 -->
+            <section id="ch5" class="chapter-card" data-chapter="5">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">第五章</span>
+                    <span class="badge badge--action">行動實踐</span>
+                </div>
+                <h2 class="chapter-title">終身學習的實踐（AAR 與自我實驗）</h2>
+                <div class="chapter-body">
+                    <div class="point-list">
+                        <div class="point-item">
+                            <div class="point-marker">1</div>
+                            <div class="point-content">
+                                <h3>重新定義失敗</h3>
+                                <p>學校說：沒 100 分 = 失敗。現代說：學習是「<strong>做實驗</strong>」，試了不適合就換方向，這不叫失敗，只是沒有繼續深耕，但視野與連結都已拓展。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">2</div>
+                            <div class="point-content">
+                                <h3>學習即生活</h3>
+                                <p>跟早餐店阿姨閒聊是學習。家庭應打破「父母永遠是對的」的權威，建立<strong>平等圓桌對話</strong>，親子共學。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">3</div>
+                            <div class="point-content">
+                                <h3>AAR 生活實驗法核心</h3>
+                                <div class="aar-flow">
+                                    <div class="aar-step">
+                                        <div class="aar-letter">A</div>
+                                        <div class="aar-name">Anticipation</div>
+                                        <div class="aar-desc">預期<br>帶著好奇心期待</div>
+                                    </div>
+                                    <div class="aar-arrow">→</div>
+                                    <div class="aar-step">
+                                        <div class="aar-letter">A</div>
+                                        <div class="aar-name">Action</div>
+                                        <div class="aar-desc">行動<br>無壓力嘗試</div>
+                                    </div>
+                                    <div class="aar-arrow">→</div>
+                                    <div class="aar-step">
+                                        <div class="aar-letter">R</div>
+                                        <div class="aar-name">Reflection</div>
+                                        <div class="aar-desc">反思<br>像颱風般捲入熱情</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">4</div>
+                            <div class="point-content">
+                                <h3>動態拼圖模式</h3>
+                                <p>每個人都有凹凸面（優缺點）。透過 AAR 與人連結，找到互補夥伴。社會不再是單一靜態，而是每人都能找到位置的<strong>動態拼圖</strong>。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="case-header">🌍 國內外實踐案例</div>
+                        <div class="case-grid">
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>自給家族（豐田市）</strong>
+                                    <p>都市青年「<strong>預付買米</strong>」分攤農民看天吃飯的風險，假日去種田被長輩當孫子疼。從「交易合夥人」昇華為「<strong>第二故鄉的家人</strong>」，同時保護了大自然的多樣性。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇹🇼</div>
+                                <div class="case-body">
+                                    <strong>台中審計新村</strong>
+                                    <p>青年微型創業不依賴完美 PDCA，先推產品（Action），從顧客回饋反思（Reflection），彈性調整，將封閉眷村變成充滿活力的創業村。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter 6 -->
+            <section id="ch6" class="chapter-card" data-chapter="6">
+                <div class="chapter-eyebrow">
+                    <span class="chapter-num-label">第六章</span>
+                    <span class="badge badge--final">終極大成</span>
+                </div>
+                <h2 class="chapter-title">學習即存在的倫理實踐與生命統整</h2>
+                <div class="chapter-body">
+                    <div class="point-list">
+                        <div class="point-item">
+                            <div class="point-marker">1</div>
+                            <div class="point-content">
+                                <h3>打破標準化</h3>
+                                <p>拒絕工業社會「台北人/台中人」的刻板標籤（均質螺絲釘）。在<strong>動態拼圖</strong>中與他人互補，「剛剛好」地契合，產生迷人的歸屬感（入坑）。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">2</div>
+                            <div class="point-content">
+                                <h3>從報恩到「恩送」<em>Pay it forward</em></h3>
+                                <p>不是單向還給對方，而是將善意<strong>無條件傳遞給周遭或下一代</strong>（恩送）。讓人成為主動實踐、為社會創造價值的行動者（Doer）。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">3</div>
+                            <div class="point-content">
+                                <h3>軟著陸與心理故鄉</h3>
+                                <p><strong>活躍老化的盲點</strong>：退休高管積極公益，但 85~90 歲體力衰退後，往往從廣闊社會「消失」，退回孤獨家中。<br><strong>解方：軟著陸</strong>——活躍的同時，提前準備退回社區的緩衝，讓自己成為下一代遮風避雨的<strong>「心理故鄉」</strong>。</p>
+                            </div>
+                        </div>
+
+                        <div class="point-item">
+                            <div class="point-marker">4</div>
+                            <div class="point-content">
+                                <h3>老年期超越 <em>Gerotranscendence</em></h3>
+                                <p>關懷下一代（Generativity）讓人脫離世俗利害算計，從「廣闊的世界」轉身進入「<strong>深邃的宇宙</strong>」，以無比滿足與平靜，迎接生命最後的時光。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-block">
+                        <div class="case-header">🌍 國內外實踐案例</div>
+                        <div class="case-grid">
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>國中生擔任「社區理事長」</strong>
+                                    <p>打破年齡階級！長輩互相尊重，讓國中生擔任社區發展協會會長，展現完美的跨世代平權與社區共好。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇯🇵</div>
+                                <div class="case-body">
+                                    <strong>攤販式公民館（沖繩）</strong>
+                                    <p>不蓋蚊子館，只在公園擺傘。公務員遵守「<strong>什麼都不做</strong>」的規則，留白引發好奇，居民搶著當輪值館長，小學生放學主動幫忙推車。</p>
+                                </div>
+                            </div>
+                            <div class="case-item">
+                                <div class="case-flag">🇹🇼</div>
+                                <div class="case-body">
+                                    <strong>台中彩虹眷村</strong>
+                                    <p>彩虹爺爺的畫筆拯救廢墟，完成自我療癒，感動全世界。彩虹超人彈吉他注入動態靈魂。證明：<strong>故鄉不一定是出生地</strong>，只要有深厚情感，哪裡都能是心靈歸屬。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <footer class="footer">
-                <p>Designed with ❤️ for <strong>人生100幸福處方箋</strong> Students</p>
+                <div class="footer-inner">
+                    <div class="footer-logo">📖</div>
+                    <p>《人生100幸福處方箋》神級寶典</p>
+                    <p class="footer-sub">Designed with ❤️ for 2H6503 班同學 · 祝高分過關 🎉</p>
+                </div>
             </footer>
+
         </main>
     </div>
+
+    <!-- Floating Action Buttons -->
+    <div class="fab-group">
+        <button id="menu-btn" class="fab fab--menu" aria-label="Open Menu">
+            <span class="fab-icon">☰</span>
+        </button>
+        <button id="top-btn" class="fab fab--top" aria-label="Back to Top">
+            <span class="fab-icon">↑</span>
+        </button>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
