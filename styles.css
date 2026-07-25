@@ -301,10 +301,13 @@ body {
     font-size: 0.9rem;
 }
 
-/* Responsive Design */
+/* Responsive Design & iPhone Pro Optimization */
 @media (max-width: 900px) {
     .sidebar {
         transform: translateX(-100%);
+        /* iPhone Safe Area support for sidebar */
+        padding-top: calc(2rem + env(safe-area-inset-top));
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom));
     }
 
     .sidebar.open {
@@ -313,7 +316,8 @@ body {
 
     .main-content {
         margin-left: 0;
-        padding: 1rem;
+        /* Padding safe area for dynamic island / notch and bottom bar */
+        padding: calc(1rem + env(safe-area-inset-top)) calc(1rem + env(safe-area-inset-right)) calc(1rem + env(safe-area-inset-bottom)) calc(1rem + env(safe-area-inset-left));
     }
 
     .mobile-menu-btn {
@@ -325,13 +329,17 @@ body {
     }
     
     .top-header h1 {
-        margin-top: 2rem;
-        font-size: 1.8rem;
+        margin-top: 2.5rem;
+        font-size: 1.6rem; /* Slightly smaller for mobile */
     }
 
     .chapter-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.8rem;
+    }
+    
+    .chapter-card {
+        padding: 1.5rem; /* Better spacing on small screens */
     }
 }
