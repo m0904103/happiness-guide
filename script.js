@@ -154,6 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 rawText += card.textContent + '。 ';
             });
 
+            // Remove emojis and special symbols so they are not read aloud (e.g., "叉叉", "金牌")
+            rawText = rawText.replace(/[\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]|[❌✅💡⚠️🥇🇹🇼🎯🔄🌀🎵🏛️👨‍🏫👉📖🎧☰↑]/g, '');
+
             // Split into smaller chunks and clean up whitespace
             const sentences = rawText
                 .replace(/\s+/g, ' ')
