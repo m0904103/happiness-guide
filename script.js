@@ -127,3 +127,51 @@ document.addEventListener('DOMContentLoaded', () => {
         particleContainer.appendChild(p);
     }
 });
+
+
+    /* ─── Text-to-Speech (TTS) ─── */
+    const ttsBtn = document.getElementById('tts-btn');
+    if (ttsBtn) {
+        let isSpeaking = false;
+        
+        ttsBtn.addEventListener('click', () => {
+            const synth = window.speechSynthesis;
+            const icon = ttsBtn.querySelector('.fab-icon');
+            
+            if (isSpeaking) {
+                synth.cancel();
+                isSpeaking = false;
+                icon.textContent = '🎧';
+                ttsBtn.classList.remove('active');
+                return;
+            }
+
+            // Get text to read (exclude hidden elements and nav)
+            let textToRead = '';
+            document.querySelectorAll('.chapter-card').forEach(card => {
+                textToRead += card.innerText + '。 ';
+            });
+
+            if (!textToRead.trim()) return;
+
+            const utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'zh-TW';
+            utterance.rate = 1.0;
+            
+            utterance.onend = () => {
+                isSpeaking = false;
+                icon.textContent = '🎧';
+                ttsBtn.classList.remove('active');
+            };
+
+            synth.speak(utterance);
+            isSpeaking = true;
+            icon.textContent = '⏹️';
+            ttsBtn.classList.add('active');
+        });
+        
+        // Stop TTS when leaving page
+        window.addEventListener('beforeunload', () => {
+            window.speechSynthesis.cancel();
+        });
+    }

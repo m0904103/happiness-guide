@@ -910,3 +910,15 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
     }
 }
 
+
+
+/* --- TTS Button --- */
+.fab--tts.active {
+    background: #ff4757;
+    animation: pulse-red 2s infinite;
+}
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+}
