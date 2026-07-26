@@ -184,7 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 '重來': '蟲來',
                 '重建': '蟲建',
                 '重拾': '蟲拾',
-                '重新': '蟲新'
+                '重新': '蟲新',
+                '解方': '姐方'
             };
             for (const [wrong, right] of Object.entries(pronunciationDict)) {
                 rawText = rawText.split(wrong).join(right);
