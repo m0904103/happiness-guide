@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     /* ─── Elements ─── */
-    const themeBtn     = document.getElementById('theme-btn');
+
     const menuBtn      = document.getElementById('menu-btn');
     const topBtn       = document.getElementById('top-btn');
     const sidebar      = document.getElementById('sidebar');
@@ -9,28 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressBar  = document.getElementById('progress-bar');
     const cards        = document.querySelectorAll('.chapter-card');
 
-    /* ─── Theme ─── */
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
 
-    themeBtn.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme');
-        applyTheme(current === 'dark' ? 'light' : 'dark');
-    });
-
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        const icon  = themeBtn.querySelector('.theme-icon');
-        const label = themeBtn.querySelector('.theme-label');
-        if (theme === 'dark') {
-            icon.textContent  = '☀️';
-            label.textContent = '淺色模式';
-        } else {
-            icon.textContent  = '🌙';
-            label.textContent = '深色模式';
-        }
-    }
 
     /* ─── Mobile sidebar ─── */
     function openSidebar()  { sidebar.classList.add('open');  overlay.classList.add('active'); }
@@ -157,7 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Remove emojis and special symbols so they are not read aloud
             const symbolsToRemove = [
                 '❌', '✅', '💡', '⚠️', '🥇', '🥈', '🥉', '🇹🇼', '🎯', '🔄', '🌀', '🎵', '🏛️', '👨‍🏫', '👉', '📖', '🎧', '☰', '↑', '↓', '➔', '→',
-                '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'
+                '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨',
+                '＋', '📊', '📉', '📈', '🌍', '🎉', '🔺', '🇵🇹', '🇯🇵', '⚠', '🇼', '🇯', '🌙', '—', '×', '⬜', '️', '·'
             ];
             symbolsToRemove.forEach(sym => {
                 rawText = rawText.split(sym).join('');
