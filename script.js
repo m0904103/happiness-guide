@@ -219,7 +219,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 synth.speak(window._currentUtterance);
             }
 
-            speakNext();
+            // Wait a brief moment for the browser to fully flush the previous speech queue (Mobile bug fix)
+            setTimeout(() => {
+                speakNext();
+            }, 250);
         });
     });
 
