@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         particleContainer.appendChild(p);
     }
-});
+
 
 
 
