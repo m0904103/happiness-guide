@@ -129,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
     /* ─── Text-to-Speech (TTS) ─── */
     const ttsBtn = document.getElementById('tts-btn');
     if (ttsBtn) {
@@ -147,27 +148,52 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Get text to read (exclude hidden elements and nav)
-            let textToRead = '';
+            let rawText = '';
             document.querySelectorAll('.chapter-card').forEach(card => {
-                textToRead += card.innerText + '。 ';
+                rawText += card.innerText + '。 ';
             });
 
-            if (!textToRead.trim()) return;
+            // Split into smaller chunks (browsers often fail silently on very long text)
+            const sentences = rawText.replace(/\n/g, '。').split(/[。！？]/).filter(s => s.trim().length > 0);
 
-            const utterance = new SpeechSynthesisUtterance(textToRead);
-            utterance.lang = 'zh-TW';
-            utterance.rate = 1.0;
-            
-            utterance.onend = () => {
+            if (sentences.length === 0) {
                 isSpeaking = false;
                 icon.textContent = '🎧';
                 ttsBtn.classList.remove('active');
-            };
+                return;
+            }
 
-            synth.speak(utterance);
+            let currentIndex = 0;
+            
+            function speakNext() {
+                if (currentIndex >= sentences.length || !isSpeaking) {
+                    isSpeaking = false;
+                    icon.textContent = '🎧';
+                    ttsBtn.classList.remove('active');
+                    return;
+                }
+                
+                const utterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
+                utterance.lang = 'zh-TW';
+                utterance.rate = 1.0;
+                
+                utterance.onend = () => {
+                    currentIndex++;
+                    speakNext();
+                };
+                
+                utterance.onerror = () => {
+                    currentIndex++;
+                    speakNext();
+                };
+
+                synth.speak(utterance);
+            }
+
             isSpeaking = true;
             icon.textContent = '⏹️';
             ttsBtn.classList.add('active');
+            speakNext();
         });
         
         // Stop TTS when leaving page
@@ -175,3 +201,4 @@ document.addEventListener('DOMContentLoaded', () => {
             window.speechSynthesis.cancel();
         });
     }
+});
