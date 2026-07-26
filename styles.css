@@ -949,3 +949,11 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
     70% { box-shadow: 0 0 0 8px rgba(255, 71, 87, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }
+
+
+/* Audiobook CTA Hover */
+.audiobook-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,107,107,0.4) !important;
+    filter: brightness(1.1);
+}
