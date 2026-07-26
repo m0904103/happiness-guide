@@ -147,14 +147,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Get text to read (exclude hidden elements and nav)
+            // Get text to read
             let rawText = '';
             document.querySelectorAll('.chapter-card').forEach(card => {
-                rawText += card.innerText + '。 ';
+                // Use textContent to ensure it works regardless of CSS visibility, and add punctuation to ensure breaks
+                rawText += card.textContent + '。 ';
             });
 
-            // Split into smaller chunks (browsers often fail silently on very long text)
-            const sentences = rawText.replace(/\n/g, '。').split(/[。！？]/).filter(s => s.trim().length > 0);
+            // Split into smaller chunks and clean up whitespace
+            const sentences = rawText
+                .replace(/\s+/g, ' ')
+                .split(/[。！？]/)
+                .map(s => s.trim())
+                .filter(s => s.length > 2); // filter out empty or very short strings
 
             if (sentences.length === 0) {
                 isSpeaking = false;
@@ -173,21 +178,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 
-                const utterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
-                utterance.lang = 'zh-TW';
-                utterance.rate = 1.0;
+                // Keep a global reference to prevent Chrome/Safari garbage collection bug!
+                window._currentUtterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
+                window._currentUtterance.lang = 'zh-TW';
+                window._currentUtterance.rate = 1.0;
                 
-                utterance.onend = () => {
+                window._currentUtterance.onend = () => {
                     currentIndex++;
                     speakNext();
                 };
                 
-                utterance.onerror = () => {
+                window._currentUtterance.onerror = (e) => {
+                    console.error("TTS Error:", e);
                     currentIndex++;
                     speakNext();
                 };
 
-                synth.speak(utterance);
+                synth.speak(window._currentUtterance);
             }
 
             isSpeaking = true;
