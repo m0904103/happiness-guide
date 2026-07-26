@@ -197,8 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 '重拾': '蟲拾',
                 '重新': '蟲新',
                 '解方': '姐方',
-                '少子高齡化': '少 子高齡化',
-                '少子化': '少 子化'
+                '少子高齡化': '減少子女與高齡化',
+                '少子化': '減少子女化'
             };
             for (const [wrong, right] of Object.entries(pronunciationDict)) {
                 rawText = rawText.split(wrong).join(right);
