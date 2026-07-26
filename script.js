@@ -155,7 +155,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             // Remove emojis and special symbols so they are not read aloud
-            const symbolsToRemove = ['❌', '✅', '💡', '⚠️', '🥇', '🇹🇼', '🎯', '🔄', '🌀', '🎵', '🏛️', '👨‍🏫', '👉', '📖', '🎧', '☰', '↑', '①', '②', '③', '④', '⑤', '⑥'];
+            const symbolsToRemove = [
+                '❌', '✅', '💡', '⚠️', '🥇', '🥈', '🥉', '🇹🇼', '🎯', '🔄', '🌀', '🎵', '🏛️', '👨‍🏫', '👉', '📖', '🎧', '☰', '↑', '↓', '➔', '→',
+                '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨'
+            ];
             symbolsToRemove.forEach(sym => {
                 rawText = rawText.split(sym).join('');
             });
