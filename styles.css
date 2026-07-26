@@ -912,13 +912,37 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
 
 
 
-/* --- TTS Button --- */
-.fab--tts.active {
+/* --- Chapter TTS Button --- */
+.chapter-tts-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-sub);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: auto; /* Push to right side of eyebrow */
+}
+
+.chapter-tts-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text);
+}
+
+.chapter-tts-btn.active {
     background: #ff4757;
+    color: #fff;
+    border-color: #ff4757;
     animation: pulse-red 2s infinite;
 }
+
 @keyframes pulse-red {
-    0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 71, 87, 0); }
     100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
 }

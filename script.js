@@ -109,31 +109,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    /* ─── Text-to-Speech (TTS) ─── */
-    const ttsBtn = document.getElementById('tts-btn');
-    if (ttsBtn) {
-        let isSpeaking = false;
-        
-        ttsBtn.addEventListener('click', () => {
-            const synth = window.speechSynthesis;
-            const icon = ttsBtn.querySelector('.fab-icon');
+    /* ─── Chapter-based Text-to-Speech (TTS) ─── */
+    // Inject TTS buttons into each chapter
+    document.querySelectorAll('.chapter-eyebrow').forEach(eyebrow => {
+        const btn = document.createElement('button');
+        btn.className = 'chapter-tts-btn';
+        btn.innerHTML = '<span class="icon">🔊</span> 聽本章';
+        btn.title = '朗讀本章';
+        eyebrow.appendChild(btn);
+    });
+
+    let currentUtterance = null;
+    let playingBtn = null;
+
+    // Helper to extract text with natural pauses between blocks
+    function extractTextWithPauses(node) {
+        let text = '';
+        if (node.nodeType === Node.TEXT_NODE) {
+            text += node.nodeValue;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const tag = node.tagName.toLowerCase();
+            // Skip visually hidden items or non-content
+            if (node.classList.contains('chapter-tts-btn') || tag === 'script' || tag === 'style') return '';
             
-            if (isSpeaking) {
+            node.childNodes.forEach(child => {
+                text += extractTextWithPauses(child);
+            });
+            // Add pauses for block elements to ensure smooth reading
+            if (['p', 'div', 'li', 'h1', 'h2', 'h3', 'h4', 'br'].includes(tag)) {
+                text += '。';
+            }
+        }
+        return text;
+    }
+
+    document.querySelectorAll('.chapter-tts-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const synth = window.speechSynthesis;
+            const card = btn.closest('.chapter-card');
+            
+            // If already playing this chapter, stop it
+            if (playingBtn === btn) {
                 synth.cancel();
-                isSpeaking = false;
-                icon.textContent = '🎧';
-                ttsBtn.classList.remove('active');
+                playingBtn.classList.remove('active');
+                playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
+                playingBtn = null;
                 return;
             }
 
-            // Get text to read
-            let rawText = '';
-            document.querySelectorAll('.chapter-card').forEach(card => {
-                // Use textContent to ensure it works regardless of CSS visibility, and add punctuation to ensure breaks
-                rawText += card.textContent + '。 ';
-            });
+            // Stop any ongoing speech from other buttons
+            synth.cancel();
+            if (playingBtn) {
+                playingBtn.classList.remove('active');
+                playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
+            }
 
-            // Remove emojis and special symbols so they are not read aloud
+            // Extract text carefully with pauses
+            let rawText = extractTextWithPauses(card);
+
+            // Filter out emojis and symbols
             const symbolsToRemove = [
                 '❌', '✅', '💡', '⚠️', '🥇', '🥈', '🥉', '🇹🇼', '🎯', '🔄', '🌀', '🎵', '🏛️', '👨‍🏫', '👉', '📖', '🎧', '☰', '↑', '↓', '➔', '→',
                 '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨',
@@ -143,31 +178,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 rawText = rawText.split(sym).join('');
             });
 
-            // Split into smaller chunks and clean up whitespace
+            // Split into sentences
             const sentences = rawText
-                .replace(/\s+/g, ' ')
+                .replace(/\s+/g, ' ') // Collapse whitespace
                 .split(/[。！？]/)
                 .map(s => s.trim())
-                .filter(s => s.length > 2); // filter out empty or very short strings
+                .filter(s => s.length > 2);
 
-            if (sentences.length === 0) {
-                isSpeaking = false;
-                icon.textContent = '🎧';
-                ttsBtn.classList.remove('active');
-                return;
-            }
+            if (sentences.length === 0) return;
+
+            playingBtn = btn;
+            playingBtn.classList.add('active');
+            playingBtn.innerHTML = '<span class="icon">⏹️</span> 停止';
 
             let currentIndex = 0;
             
             function speakNext() {
-                if (currentIndex >= sentences.length || !isSpeaking) {
-                    isSpeaking = false;
-                    icon.textContent = '🎧';
-                    ttsBtn.classList.remove('active');
+                if (currentIndex >= sentences.length || playingBtn !== btn) {
+                    if (playingBtn === btn) {
+                        playingBtn.classList.remove('active');
+                        playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
+                        playingBtn = null;
+                    }
                     return;
                 }
                 
-                // Keep a global reference to prevent Chrome/Safari garbage collection bug!
                 window._currentUtterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
                 window._currentUtterance.lang = 'zh-TW';
                 window._currentUtterance.rate = 1.0;
@@ -176,9 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex++;
                     speakNext();
                 };
-                
-                window._currentUtterance.onerror = (e) => {
-                    console.error("TTS Error:", e);
+                window._currentUtterance.onerror = () => {
                     currentIndex++;
                     speakNext();
                 };
@@ -186,15 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 synth.speak(window._currentUtterance);
             }
 
-            isSpeaking = true;
-            icon.textContent = '⏹️';
-            ttsBtn.classList.add('active');
             speakNext();
         });
-        
-        // Stop TTS when leaving page
-        window.addEventListener('beforeunload', () => {
-            window.speechSynthesis.cancel();
-        });
-    }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        window.speechSynthesis.cancel();
+    });
 });
