@@ -159,7 +159,7 @@ body {
     gap: 0.35rem;
 }
 
-.nav-item {
+.nav-item, .nav-link-external {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -172,12 +172,12 @@ body {
     transition: all var(--transition);
     position: relative;
 }
-.nav-item:hover {
+.nav-item:hover, .nav-link-external:hover {
     background: rgba(162,155,254,0.1);
     color: var(--text);
     transform: translateX(4px);
 }
-.nav-item.active {
+.nav-item.active, .nav-link-external.active {
     background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-coral) 100%);
     color: #fff;
     box-shadow: 0 4px 15px rgba(245,166,35,0.35);
