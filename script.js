@@ -178,6 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 rawText = rawText.split(sym).join('');
             });
 
+            // Fix polyphone pronunciation (破音字修正)
+            const pronunciationDict = {
+                '重塑': '蟲塑',
+                '重來': '蟲來',
+                '重建': '蟲建',
+                '重拾': '蟲拾',
+                '重新': '蟲新'
+            };
+            for (const [wrong, right] of Object.entries(pronunciationDict)) {
+                rawText = rawText.split(wrong).join(right);
+            }
+
             // Split into sentences
             const sentences = rawText
                 .replace(/\s+/g, ' ') // Collapse whitespace
