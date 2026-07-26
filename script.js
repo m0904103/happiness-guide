@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .replace(/\s+/g, ' ') // Collapse whitespace
                 .split(/[。！？]/)
                 .map(s => s.trim())
-                .filter(s => s.length > 2);
+                .filter(s => s.length > 0);
 
             if (sentences.length === 0) return;
 
