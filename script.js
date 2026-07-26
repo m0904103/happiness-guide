@@ -132,6 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // Skip visually hidden items or non-content
             if (node.classList.contains('chapter-tts-btn') || tag === 'script' || tag === 'style') return '';
             
+            // TTS structural hints for tables and comparisons
+            if (node.classList.contains('trap-wrong') && node.parentElement && !node.parentElement.classList.contains('trap-header')) {
+                text += '考題陷阱是：';
+            }
+            if (node.classList.contains('trap-right') && node.parentElement && !node.parentElement.classList.contains('trap-header')) {
+                text += '正確解答是：';
+            }
+            if (node.classList.contains('compare-box--old')) {
+                text += '過去傳統的觀念是：';
+            }
+            if (node.classList.contains('compare-box--new')) {
+                text += '現代的觀念是：';
+            }
+
             node.childNodes.forEach(child => {
                 text += extractTextWithPauses(child);
             });
