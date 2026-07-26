@@ -21,11 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ─── Nav smooth scroll ─── */
     navItems.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const id = link.getAttribute('href').slice(1);
-            const target = document.getElementById(id);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const id = href.slice(1);
+                const target = document.getElementById(id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
             if (window.innerWidth <= 900) closeSidebar();
         });
