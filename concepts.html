@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<meta name="theme-color" content="#0f172a">
+
+<title>大師概念翻譯與理論地圖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+/* ─── Design Tokens ─── */
+
+:root {
+
+  --bg: #0f172a;
+
+  --surface: #1e293b;
+
+  --surface2: #263248;
+
+  --border: rgba(148,163,184,.15);
+
+  --accent: #818cf8;
+
+  --accent2: #c084fc;
+
+  --green: #34d399;
+
+  --red: #f87171;
+
+  --amber: #fbbf24;
+
+  --text: #f1f5f9;
+
+  --muted: #94a3b8;
+
+  --card: #1e293b;
+
+  --r: 20px;
+
+  --sh: 0 0 0 1px rgba(148,163,184,.1), 0 20px 50px rgba(0,0,0,.5);
+
+  --safe-top: env(safe-area-inset-top);
+
+  --safe-bot: env(safe-area-inset-bottom);
+
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;overscroll-behavior-y:none;
+
+  padding-top:var(--safe-top);padding-bottom:var(--safe-bot)}
+
+a{text-decoration:none;color:inherit}
+
+
+
+/* ─── App Container ─── */
+
+#app {
+
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  min-height: 100vh;
+
+  background: var(--bg);
+
+  position: relative;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+
+/* ─── Header ─── */
+
+.header {
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 100;
+
+  background: rgba(15, 23, 42, 0.85);
+
+  backdrop-filter: blur(16px);
+
+  -webkit-backdrop-filter: blur(16px);
+
+  border-bottom: 1px solid var(--border);
+
+  padding: 16px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+
+  padding: 0 16px; height: 38px; border-radius: 99px; 
+
+  background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); 
+
+  cursor: pointer; display: flex; align-items: center; justify-content: center; 
+
+  font-size: 0.95rem; font-weight: 700; color: #38bdf8; transition: .2s; 
+
+  flex-shrink: 0; gap: 4px;
+
+}
+
+
+.header-title {
+
+  font-size: 1.1rem;
+
+  font-weight: 700;
+
+  background: linear-gradient(135deg, #a78bfa, #818cf8);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+
+}
+
+
+
+/* ─── Layout ─── */
+
+.container {
+
+  padding: 20px;
+
+  padding-bottom: 100px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 32px;
+
+}
+
+.section-title {
+
+  font-size: 1.3rem;
+
+  font-weight: 900;
+
+  margin-bottom: 16px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.section-title span {
+
+  font-size: 1.6rem;
+
+}
+
+
+
+/* ─── Timeline (三部曲) ─── */
+
+.timeline {
+
+  position: relative;
+
+  padding-left: 24px;
+
+}
+
+.timeline::before {
+
+  content: '';
+
+  position: absolute;
+
+  left: 6px;
+
+  top: 0;
+
+  bottom: 0;
+
+  width: 2px;
+
+  background: var(--border);
+
+}
+
+.tl-item {
+
+  position: relative;
+
+  margin-bottom: 24px;
+
+}
+
+.tl-item:last-child { margin-bottom: 0; }
+
+.tl-dot {
+
+  position: absolute;
+
+  left: -24px;
+
+  top: 4px;
+
+  width: 14px;
+
+  height: 14px;
+
+  border-radius: 50%;
+
+  transform: translateX(-4px);
+
+  z-index: 2;
+
+  box-shadow: 0 0 0 4px var(--bg);
+
+}
+
+.tl-1 .tl-dot { background: var(--red); }
+
+.tl-2 .tl-dot { background: var(--amber); }
+
+.tl-3 .tl-dot { background: var(--green); }
+
+
+
+.tl-content {
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 16px;
+
+  padding: 16px;
+
+}
+
+.tl-content h4 {
+
+  font-size: 1.1rem;
+
+  font-weight: 700;
+
+  margin-bottom: 6px;
+
+}
+
+.tl-1 h4 { color: var(--red); }
+
+.tl-2 h4 { color: var(--amber); }
+
+.tl-3 h4 { color: var(--green); }
+
+
+
+.tl-content p {
+
+  font-size: 0.9rem;
+
+  color: var(--muted);
+
+  line-height: 1.5;
+
+  margin-bottom: 12px;
+
+}
+
+.kw-tags {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+}
+
+.kw-tag {
+
+  font-size: 0.75rem;
+
+  font-weight: 700;
+
+  padding: 4px 10px;
+
+  border-radius: 99px;
+
+  background: var(--surface2);
+
+  color: var(--text-light);
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  user-select: none;
+
+  border: 1px solid var(--border);
+
+}
+
+.kw-tag:hover {
+
+  background: var(--accent);
+
+  color: #fff;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 12px rgba(138,43,226, 0.3);
+
+}
+
+
+
+/* ─── Flip Cards (翻譯蒟蒻) ─── */
+
+.flip-grid {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+
+}
+
+.flip-card {
+
+  background: transparent;
+
+  height: 120px;
+
+  perspective: 1000px;
+
+  cursor: pointer;
+
+}
+
+.flip-card-inner {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 100%;
+
+  text-align: center;
+
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+  transform-style: preserve-3d;
+
+}
+
+.flip-card.flipped .flip-card-inner {
+
+  transform: rotateY(180deg);
+
+}
+
+.flip-card-front, .flip-card-back {
+
+  position: absolute;
+
+  width: 100%;
+
+  height: 100%;
+
+  -webkit-backface-visibility: hidden;
+
+  backface-visibility: hidden;
+
+  border-radius: 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 12px;
+
+  border: 1px solid var(--border);
+
+}
+
+.flip-card-front {
+
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+
+}
+
+.flip-card-front h4 {
+
+  font-size: 1.2rem;
+
+  font-weight: 900;
+
+  color: var(--accent);
+
+}
+
+.flip-card-front span {
+
+  font-size: 0.75rem;
+
+  color: var(--muted);
+
+  margin-top: 4px;
+
+}
+
+.flip-card-back {
+
+  background: linear-gradient(135deg, #312e81, #1e1b4b);
+
+  transform: rotateY(180deg);
+
+  border-color: var(--accent);
+
+}
+
+.flip-card-back p {
+
+  font-size: 0.85rem;
+
+  font-weight: 500;
+
+  line-height: 1.4;
+
+  color: #fff;
+
+}
+
+.click-hint {
+
+  font-size: 0.7rem;
+
+  color: var(--accent);
+
+  margin-top: 8px;
+
+  opacity: 0.8;
+
+  animation: pulse 2s infinite;
+
+}
+
+@keyframes pulse {
+
+  0% { opacity: 0.5; }
+
+  50% { opacity: 1; }
+
+  100% { opacity: 0.5; }
+
+}
+
+
+
+/* ─── Comparison Table ─── */
+
+.comp-table {
+
+  width: 100%;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+
+}
+
+.comp-table th, .comp-table td {
+
+  padding: 14px;
+
+  text-align: left;
+
+  border-bottom: 1px solid var(--border);
+
+  border-right: 1px solid var(--border);
+
+}
+
+.comp-table th:last-child, .comp-table td:last-child {
+
+  border-right: none;
+
+}
+
+.comp-table tr:last-child td {
+
+  border-bottom: none;
+
+}
+
+.comp-table th {
+
+  background: var(--surface2);
+
+  font-size: 0.9rem;
+
+  font-weight: 900;
+
+  color: var(--muted);
+
+  text-align: center;
+
+}
+
+.comp-table td {
+
+  background: var(--surface);
+
+  font-size: 0.85rem;
+
+  line-height: 1.5;
+
+  vertical-align: top;
+
+  width: 50%;
+
+}
+
+.comp-table td.old { color: var(--red); }
+
+.comp-table td.new { color: var(--green); font-weight: 700;}
+
+
+
+/* EASTER EGG */
+
+.easter-egg { margin-top: 30px; background: rgba(255,255,255,0.03); border: 1px dashed var(--border); border-radius: 12px; padding: 15px; }
+
+.easter-egg summary { font-size: 0.9rem; font-weight: 700; color: var(--accent); cursor: pointer; user-select: none; list-style: none; display: flex; align-items: center; }
+
+.easter-egg summary::-webkit-details-marker { display: none; }
+
+.easter-egg summary::after { content: '▼'; margin-left: auto; font-size: 0.8rem; transition: transform 0.3s; }
+
+.easter-egg[open] summary::after { transform: rotate(180deg); }
+
+.egg-content { margin-top: 15px; font-size: 0.85rem; color: var(--muted); line-height: 1.6; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+.egg-content ul { padding-left: 20px; margin: 10px 0; }
+
+.egg-content li { margin-bottom: 8px; }
+
+.egg-content strong { color: #fff; }
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div id="app">
+
+
+
+  <div class="header">
+
+
+    <div class="header-title">概念翻譯與理論地圖</div>
+
+  </div>
+
+
+
+  <div class="container">
+
+    
+
+    <!-- Section A: Timeline -->
+
+    <section class="slide-up" style="animation: slideUp 0.4s ease forwards;">
+
+      <div class="section-title"><span>🗺️</span> 理論脈絡三部曲</div>
+
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom: 16px;">跟著牧野篤教授的邏輯看懂時代的病與藥。</p>
+
+      
+
+      <div class="timeline">
+
+        <div class="tl-item tl-1">
+
+          <div class="tl-dot"></div>
+
+          <div class="tl-content">
+
+            <h4>第一部曲：生病的社會</h4>
+
+            <p style="text
+
