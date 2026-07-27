@@ -237,7 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
         resetActiveButton() {
             if (this.activeButton) {
                 this.activeButton.classList.remove('active');
-                this.activeButton.innerHTML = '<span class="icon">🔊</span> 聽本章';
+                if (this.activeButton.id === 'play-all-tts-btn') {
+                    this.activeButton.innerHTML = '<span style="font-size: 1.4rem;">▶️</span> 全部連續朗讀 (Podcast 模式)';
+                } else {
+                    this.activeButton.innerHTML = '<span class="icon">🔊</span> 聽本章';
+                }
                 this.activeButton = null;
             }
         },
@@ -251,7 +255,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Update UI
             this.activeButton.classList.add('active');
-            this.activeButton.innerHTML = '<span class="icon">🔊</span> 朗讀中...';
+            if (this.activeButton.id === 'play-all-tts-btn') {
+                this.activeButton.innerHTML = '<span style="font-size: 1.4rem;">🔊</span> 播客模式朗讀中...';
+            } else {
+                this.activeButton.innerHTML = '<span class="icon">🔊</span> 朗讀中...';
+            }
             this.ui.title.textContent = '正在朗讀：' + chapterTitle;
             this.ui.player.classList.remove('hidden');
             this.ui.btnPlayPause.textContent = '⏸️';
@@ -351,6 +359,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the player UI
     TTSPlayer.init();
+
+    const playAllBtn = document.getElementById('play-all-tts-btn');
+    if (playAllBtn) {
+        playAllBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            if (TTSPlayer.activeButton === playAllBtn) {
+                TTSPlayer.togglePlayPause();
+                return;
+            }
+
+            let fullQueue = [];
+            document.querySelectorAll('.chapter-card').forEach(card => {
+                // If it's a card with a button, extract text
+                if (card.querySelector('.chapter-tts-btn') || card.id === 'exam-prep' || card.id === 'concepts') {
+                    const queue = buildTTSQueue(card);
+                    fullQueue = fullQueue.concat(queue);
+                }
+            });
+
+            if (fullQueue.length === 0) return;
+
+            TTSPlayer.start(playAllBtn, fullQueue, '全書總複習 (Podcast 模式)');
+        });
+    }
 
     document.querySelectorAll('.chapter-tts-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
