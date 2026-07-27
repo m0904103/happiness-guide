@@ -168,6 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 text = text.replace(/「\s*聽本章\s*」/g, '朗讀');
                 text = text.replace(/「\s*選單\s*」/g, '選單');
 
+                // Convert 4-digit years to be read digit-by-digit (e.g., 1869年 -> 一八六九年)
+                text = text.replace(/(\d{4})\s*年/g, (match, year) => {
+                    const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+                    return year.split('').map(d => digits[parseInt(d)]).join('') + '年';
+                });
+
                 // Fix polyphone pronunciation (破音字修正)
                 const pronunciationDict = {
                     '重塑': '蟲塑',
