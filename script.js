@@ -132,9 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Skip visually hidden items or non-content
             if (node.classList.contains('chapter-tts-btn') || node.classList.contains('trap-header') || tag === 'script' || tag === 'style') return queue;
 
-            const isBlock = ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'th', 'td', 'div'].includes(tag);
+            const isBlock = ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'th', 'td', 'div', 'strong', 'b', 'dt', 'dd', 'figcaption'].includes(tag);
             const hasBlockChildren = Array.from(node.children).some(child => 
-                ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'th', 'td', 'div', 'ul', 'ol', 'table', 'tbody', 'tr'].includes(child.tagName.toLowerCase())
+                ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'th', 'td', 'div', 'ul', 'ol', 'table', 'tbody', 'tr'].includes(child.tagName.toLowerCase())
             );
 
             if (isBlock && !hasBlockChildren) {
