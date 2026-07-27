@@ -1221,6 +1221,16 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
     box-shadow: 0 8px 22px rgba(108, 92, 231, 0.5);
 }
 
+.hero-action-quiz {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+}
+
+.hero-action-quiz:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(124, 58, 237, 0.5);
+}
+
 .hero-podcast-btn {
     display: flex;
     align-items: center;
