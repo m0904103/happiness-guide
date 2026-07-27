@@ -154,6 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     text = text.split(sym).join('');
                 });
 
+                // Smooth out UI instructions
+                text = text.replace(/「\s*聽本章\s*」/g, '朗讀');
+                text = text.replace(/「\s*選單\s*」/g, '選單');
+
                 // Fix polyphone pronunciation (破音字修正)
                 const pronunciationDict = {
                     '重塑': '蟲塑',
