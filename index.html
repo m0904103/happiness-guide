@@ -108,45 +108,49 @@
             <section id="hero" class="hero-section" scroll-margin-top="0">
                 <div class="hero-particles" id="particles"></div>
                 <div class="hero-content">
-                    <div class="hero-badge">📖 115暑空大考前重點整理</div>
+                    <div class="hero-badges-wrapper">
+                        <div class="hero-badge">📖 115暑空大考前重點整理</div>
+                        <div class="hero-countdown-pill" id="exam-countdown">
+                            <span class="pill-fire">⚡</span>
+                            <span class="pill-text">9/5 (六) 期末考倒數</span>
+                            <span class="pill-days-highlight">剩 <strong id="cd-days">39</strong> 天</span>
+                        </div>
+                    </div>
+
                     <h1 class="hero-title">
                         人生 <span class="hero-number">100</span><br>
                         <span class="hero-subtitle-text">幸福處方箋</span>
                     </h1>
                     <p class="hero-desc">全六章地毯式重點梳理 · 考場實戰必備</p>
                     
-                    <!-- Final Exam Countdown Timer Card -->
-                    <div class="exam-countdown-card" id="exam-countdown">
-                        <span class="countdown-badge">⚡ 距離期末考僅剩</span>
-                        <div class="countdown-days-wrap">
-                            <span class="countdown-days-val" id="cd-days">39</span>
-                            <span class="countdown-days-lbl">天</span>
-                        </div>
-                        <span class="countdown-subtext">📅 2026/09/05 (六) 15:00 登場</span>
+                    <!-- Action Cards Grid -->
+                    <div class="hero-action-grid">
+                        <a href="https://m0904103.github.io/ibasho/" target="_blank" rel="noopener noreferrer" class="hero-action-card hero-action-audiobook">
+                            <span class="action-icon">🎧</span>
+                            <span class="action-text">收聽專屬有聲書</span>
+                        </a>
+                        <a href="concepts.html" target="_blank" rel="noopener noreferrer" class="hero-action-card hero-action-map">
+                            <span class="action-icon">🗺️</span>
+                            <span class="action-text">理論概念地圖</span>
+                        </a>
                     </div>
-                    
-                    <a href="https://m0904103.github.io/ibasho/" target="_blank" rel="noopener noreferrer" class="audiobook-cta" style="display: inline-block; margin-top: 0.5rem; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #ff7675, #d63031); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(214, 48, 49, 0.4); border: 2px solid rgba(255,255,255,0.15); transition: all 0.2s ease;">
-                        🎧 前往聆聽《人生100幸福處方箋》有聲書
-                    </a>
-                    
-                    <a href="concepts.html" target="_blank" rel="noopener noreferrer" class="audiobook-cta" style="display: inline-block; margin-top: 0.8rem; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, #a29bfe, #6c5ce7); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4); border: 2px solid rgba(255,255,255,0.15); transition: all 0.2s ease;">
-                        🗺️ 打開大師概念翻譯與理論地圖
-                    </a>
 
-                    <div class="hero-usage-guide" style="margin: 1.5rem auto; max-width: 450px; text-align: left; background: rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-                        <h3 style="font-size: 1.05rem; margin-bottom: 0.8rem; color: #fff;">💡 本網頁使用說明：</h3>
-                        <ul style="font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,0.8); padding-left: 1.2rem; margin: 0;">
-                            <li style="margin-bottom: 0.5rem;">點擊各章節右上角的「<strong>🔊 聽本章</strong>」按鈕，即可分段語音朗讀（適合通勤複習）。</li>
-                            <li style="margin-bottom: 0.5rem;">點擊右下角「<strong>選單 ☰ </strong>」圖示，可展開目錄快速跳轉章節。</li>
-                            <li>網頁最下方備有「<strong>考試實戰防禦區</strong>」，考前必看防呆表。</li>
+                    <button id="play-all-tts-btn" class="hero-podcast-btn">
+                        <span class="podcast-icon">▶️</span>
+                        <span>全部連續朗讀 (Podcast 模式)</span>
+                    </button>
+
+                    <!-- Usage Guide Card -->
+                    <div class="hero-usage-card">
+                        <h3 class="usage-title">💡 使用說明</h3>
+                        <ul class="usage-list">
+                            <li>點擊章節右上角「<strong>🔊 聽本章</strong>」即可語音朗讀。</li>
+                            <li>點擊右下角「<strong>選單 ☰ </strong>」展開目錄快速跳轉。</li>
+                            <li>網頁最下方設有「<strong>考試實戰防禦區</strong>」考前必看防呆表。</li>
                         </ul>
                     </div>
                     
-                    <button id="play-all-tts-btn" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin: 1.5rem auto 0.5rem auto; padding: 1rem 1.8rem; background: linear-gradient(135deg, #10b981, #059669); color: #fff; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 1.15rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); border: none; cursor: pointer; transition: transform 0.2s ease;">
-                        <span style="font-size: 1.4rem;">▶️</span> 全部連續朗讀 (Podcast 模式)
-                    </button>
-                    
-                    <a href="#ch1" class="hero-cta" style="margin-top: 1rem;">開始複習 →</a>
+                    <a href="#ch1" class="hero-start-btn">開始複習 ↓</a>
                 </div>
                 <div class="hero-scroll-hint">
                     <div class="scroll-arrow"></div>
@@ -829,6 +833,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=44"></script>
+    <script src="script.js?v=45"></script>
 </body>
 </html>

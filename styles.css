@@ -1107,4 +1107,195 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
     font-size: 0.82rem;
     color: rgba(255, 255, 255, 0.6);
 }
+/* ============================================================
+   HERO REDESIGN & EXAM COUNTDOWN PILL (PREMIUM & SLEEK)
+   ============================================================ */
 
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.hero-badges-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.hero-badge {
+    margin-bottom: 0 !important;
+}
+
+.hero-countdown-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.35rem 1rem;
+    background: rgba(22, 26, 40, 0.85);
+    border: 1px solid rgba(245, 166, 35, 0.4);
+    border-radius: 40px;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 12px rgba(245, 166, 35, 0.15);
+    backdrop-filter: blur(8px);
+    white-space: nowrap;
+}
+
+.pill-fire {
+    font-size: 1rem;
+}
+
+.pill-text {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.pill-days-highlight {
+    background: rgba(232, 65, 24, 0.25);
+    border: 1px solid rgba(255, 118, 117, 0.4);
+    color: #ff7675;
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.pill-days-highlight strong {
+    font-size: 1.05rem;
+    color: #fff;
+}
+
+.hero-action-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 1.2rem;
+    width: 100%;
+    max-width: 480px;
+    flex-wrap: wrap;
+}
+
+.hero-action-card {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0.85rem 1.4rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.25 ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.hero-action-audiobook {
+    background: linear-gradient(135deg, #e84118, #d63031);
+    box-shadow: 0 4px 15px rgba(232, 65, 24, 0.35);
+}
+
+.hero-action-audiobook:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(232, 65, 24, 0.5);
+}
+
+.hero-action-map {
+    background: linear-gradient(135deg, #6c5ce7, #4834d4);
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.35);
+}
+
+.hero-action-map:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(108, 92, 231, 0.5);
+}
+
+.hero-podcast-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0.9rem;
+    width: 100%;
+    max-width: 480px;
+    padding: 0.95rem 1.5rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-podcast-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(16, 185, 129, 0.5);
+}
+
+.hero-usage-card {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 480px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.1rem 1.4rem;
+    backdrop-filter: blur(10px);
+}
+
+.usage-title {
+    font-size: 0.98rem;
+    color: var(--color-gold);
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+}
+
+.usage-list {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    padding-left: 1.2rem;
+    margin: 0;
+}
+
+.usage-list li {
+    margin-bottom: 0.4rem;
+}
+
+.usage-list li:last-child {
+    margin-bottom: 0;
+}
+
+.hero-start-btn {
+    display: inline-block;
+    margin-top: 1.4rem;
+    padding: 0.65rem 1.6rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.hero-start-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+}
