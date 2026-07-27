@@ -756,7 +756,7 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
 .case-item:hover { background: rgba(245,166,35,0.04); }
 .case-flag { font-size: 1.5rem; flex-shrink: 0; }
 .case-body { flex: 1; }
-.case-body strong { font-size: 0.88rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 0.3rem; }
+.case-body > strong { font-size: 0.95rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 0.3rem; }
 .case-body p { font-size: 0.83rem; color: var(--text-sub); line-height: 1.55; }
 
 /* ============================================================
