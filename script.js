@@ -138,7 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             if (isBlock && !hasBlockChildren) {
-                let text = node.textContent;
+                // Manually extract text to properly skip ignored child nodes (like the TTS button itself)
+                let text = '';
+                function extractClean(n) {
+                    if (n.nodeType === Node.TEXT_NODE) {
+                        text += n.nodeValue;
+                    } else if (n.nodeType === Node.ELEMENT_NODE) {
+                        if (n.classList.contains('chapter-tts-btn') || n.tagName.toLowerCase() === 'script' || n.tagName.toLowerCase() === 'style') return;
+                        n.childNodes.forEach(extractClean);
+                    }
+                }
+                extractClean(node);
                 
                 // Add prefixes
                 if (node.classList.contains('trap-wrong')) text = '考題陷阱是：' + text;
