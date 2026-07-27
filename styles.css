@@ -1048,82 +1048,89 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
 }
 
 /* ============================================================
-   EXAM COUNTDOWN CARD (PDCA TRIAL)
+   EXAM COUNTDOWN CARD (HORIZONTAL SLEEK DESIGN)
    ============================================================ */
 .exam-countdown-card {
-    margin: 1.8rem auto 1.2rem auto;
-    max-width: 500px;
-    background: linear-gradient(135deg, rgba(232, 65, 24, 0.12), rgba(214, 48, 49, 0.22));
-    border: 2px solid rgba(232, 65, 24, 0.4);
+    margin: 1.5rem auto 1rem auto;
+    max-width: 520px;
+    width: 90%;
+    background: rgba(22, 26, 40, 0.85);
+    border: 1px solid rgba(245, 166, 35, 0.35);
     border-radius: 16px;
     padding: 1.2rem 1.5rem;
-    box-shadow: 0 8px 25px rgba(232, 65, 24, 0.25);
-    text-align: center;
-    backdrop-filter: blur(8px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(245, 166, 35, 0.15);
+    backdrop-filter: blur(12px);
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
 }
 
-.exam-countdown-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(232, 65, 24, 0.35);
+.countdown-header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
 }
 
 .countdown-badge {
-    display: inline-block;
-    padding: 0.25rem 0.8rem;
-    background: rgba(232, 65, 24, 0.3);
-    color: #ff7675;
+    padding: 0.25rem 0.75rem;
+    background: rgba(245, 166, 35, 0.2);
+    color: #f5a623;
     font-size: 0.85rem;
     font-weight: 700;
     border-radius: 20px;
-    letter-spacing: 1px;
-    margin-bottom: 0.5rem;
-    border: 1px solid rgba(255, 118, 117, 0.4);
+    border: 1px solid rgba(245, 166, 35, 0.4);
 }
 
 .countdown-title {
-    font-size: 1rem;
-    color: #fff;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
-    margin-bottom: 0.8rem;
 }
 
 .countdown-grid {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 0.6rem 0;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100%;
 }
 
-.countdown-unit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 54px;
-    background: rgba(15, 17, 23, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+.countdown-box {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 10px;
-    padding: 0.4rem 0.6rem;
+    padding: 0.5rem 0.8rem;
+    min-width: 68px;
 }
 
 .countdown-val {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-weight: 900;
-    color: #ff7675;
-    font-family: monospace, 'Noto Sans TC', sans-serif;
-    line-height: 1.2;
+    color: #f5a623;
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 1;
 }
 
 .countdown-lbl {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
     color: rgba(255, 255, 255, 0.7);
 }
 
 .countdown-colon {
     font-size: 1.4rem;
     font-weight: 900;
-    color: #ff7675;
+    color: #f5a623;
     animation: blinkColon 1s infinite;
 }
 
@@ -1131,10 +1138,19 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
     50% { opacity: 0.3; }
 }
 
-.countdown-note {
-    font-size: 0.82rem;
-    color: rgba(255, 255, 255, 0.75);
-    margin-top: 0.6rem;
-    line-height: 1.4;
+@media (max-width: 500px) {
+    .countdown-box {
+        padding: 0.4rem 0.5rem;
+        min-width: 54px;
+    }
+    .countdown-val {
+        font-size: 1.3rem;
+    }
+    .countdown-lbl {
+        font-size: 0.75rem;
+    }
+    .countdown-grid {
+        gap: 4px !important;
+    }
 }
 
