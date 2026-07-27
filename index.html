@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=21">
+    <link rel="stylesheet" href="styles.css?v=23">
 </head>
 <body>
     <!-- Reading Progress Bar -->
@@ -770,6 +770,19 @@
         </button>
     </div>
 
-    <script src="script.js?v=22"></script>
+    <!-- Floating TTS Player Bar -->
+    <div id="tts-player" class="tts-player hidden">
+        <div class="tts-player-info">
+            <span id="tts-player-title">準備朗讀...</span>
+        </div>
+        <div class="tts-player-controls">
+            <button id="tts-prev" class="tts-btn" title="上一段">⏮️</button>
+            <button id="tts-playpause" class="tts-btn" title="暫停/播放">⏸️</button>
+            <button id="tts-next" class="tts-btn" title="下一段">⏭️</button>
+            <button id="tts-stop" class="tts-btn tts-btn-stop" title="停止">⏹️</button>
+        </div>
+    </div>
+
+    <script src="script.js?v=23"></script>
 </body>
 </html>

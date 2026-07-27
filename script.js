@@ -199,97 +199,176 @@ document.addEventListener('DOMContentLoaded', () => {
         return queue;
     }
 
-    let currentHighlightedNode = null;
+      // ==========================================
+    // TTS Player State Management
+    // ==========================================
+    const TTSPlayer = {
+        queue: [],
+        currentIndex: 0,
+        synth: window.speechSynthesis,
+        activeButton: null,
+        highlightedNode: null,
+        isPaused: false,
+        
+        ui: {
+            player: document.getElementById('tts-player'),
+            title: document.getElementById('tts-player-title'),
+            btnPrev: document.getElementById('tts-prev'),
+            btnPlayPause: document.getElementById('tts-playpause'),
+            btnNext: document.getElementById('tts-next'),
+            btnStop: document.getElementById('tts-stop')
+        },
+
+        init() {
+            if (!this.ui.player) return;
+            this.ui.btnStop.addEventListener('click', () => this.stop());
+            this.ui.btnPlayPause.addEventListener('click', () => this.togglePlayPause());
+            this.ui.btnNext.addEventListener('click', () => this.next());
+            this.ui.btnPrev.addEventListener('click', () => this.prev());
+        },
+
+        clearHighlight() {
+            if (this.highlightedNode) {
+                this.highlightedNode.classList.remove('tts-highlight');
+                this.highlightedNode = null;
+            }
+        },
+
+        resetActiveButton() {
+            if (this.activeButton) {
+                this.activeButton.classList.remove('active');
+                this.activeButton.innerHTML = '<span class="icon">🔊</span> 聽本章';
+                this.activeButton = null;
+            }
+        },
+
+        start(btn, queue, chapterTitle) {
+            this.stop(); // Stop any current playback completely
+            this.queue = queue;
+            this.currentIndex = 0;
+            this.activeButton = btn;
+            this.isPaused = false;
+            
+            // Update UI
+            this.activeButton.classList.add('active');
+            this.activeButton.innerHTML = '<span class="icon">🔊</span> 朗讀中...';
+            this.ui.title.textContent = '正在朗讀：' + chapterTitle;
+            this.ui.player.classList.remove('hidden');
+            this.ui.btnPlayPause.textContent = '⏸️';
+
+            // Wait a brief moment to flush mobile TTS queues
+            setTimeout(() => this.speakNext(), 100);
+        },
+
+        stop() {
+            this.synth.cancel();
+            this.clearHighlight();
+            this.resetActiveButton();
+            if (this.ui.player) this.ui.player.classList.add('hidden');
+            this.queue = [];
+            this.isPaused = false;
+        },
+
+        togglePlayPause() {
+            if (this.synth.paused) {
+                this.synth.resume();
+                this.isPaused = false;
+                this.ui.btnPlayPause.textContent = '⏸️';
+            } else if (this.synth.speaking) {
+                this.synth.pause();
+                this.isPaused = true;
+                this.ui.btnPlayPause.textContent = '▶️';
+            }
+        },
+
+        next() {
+            if (this.currentIndex < this.queue.length - 1) {
+                this.synth.cancel(); // triggers onend/onerror which normally increments, so we manually do it
+                // Wait for the cancel event to clear before restarting
+                setTimeout(() => {
+                    this.currentIndex++;
+                    this.speakNext();
+                }, 10);
+            } else {
+                this.stop();
+            }
+        },
+
+        prev() {
+            this.synth.cancel();
+            setTimeout(() => {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                }
+                this.speakNext(); // replay current or previous block
+            }, 10);
+        },
+
+        speakNext() {
+            if (this.currentIndex >= this.queue.length || this.currentIndex < 0) {
+                this.stop();
+                return;
+            }
+
+            this.ui.btnPlayPause.textContent = '⏸️';
+            this.isPaused = false;
+
+            const currentItem = this.queue[this.currentIndex];
+            window._currentUtterance = new SpeechSynthesisUtterance(currentItem.text);
+            window._currentUtterance.lang = 'zh-TW';
+            window._currentUtterance.rate = 1.0;
+
+            window._currentUtterance.onstart = () => {
+                this.clearHighlight();
+                this.highlightedNode = currentItem.node;
+                this.highlightedNode.classList.add('tts-highlight');
+
+                const rect = this.highlightedNode.getBoundingClientRect();
+                const isVisible = (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight));
+                if (!isVisible) {
+                    this.highlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            };
+
+            window._currentUtterance.onend = (e) => {
+                // If it was canceled manually by next()/prev()/stop(), skip auto-increment
+                if (this.queue.length === 0) return;
+                
+                this.currentIndex++;
+                this.speakNext();
+            };
+
+            window._currentUtterance.onerror = (e) => {
+                if (e.error === 'canceled' || e.error === 'interrupted') return;
+                if (this.queue.length === 0) return;
+                this.currentIndex++;
+                this.speakNext();
+            };
+
+            this.synth.speak(window._currentUtterance);
+        }
+    };
+
+    // Initialize the player UI
+    TTSPlayer.init();
 
     document.querySelectorAll('.chapter-tts-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const synth = window.speechSynthesis;
             const card = btn.closest('.chapter-card');
             
-            // Cleanup function for highlighting
-            const clearHighlight = () => {
-                if (currentHighlightedNode) {
-                    currentHighlightedNode.classList.remove('tts-highlight');
-                    currentHighlightedNode = null;
-                }
-            };
-
-            // If already playing this chapter, stop it
-            if (playingBtn === btn) {
-                synth.cancel();
-                clearHighlight();
-                playingBtn.classList.remove('active');
-                playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
-                playingBtn = null;
+            if (TTSPlayer.activeButton === btn) {
+                TTSPlayer.togglePlayPause();
                 return;
-            }
-
-            // Stop any ongoing speech from other buttons
-            synth.cancel();
-            clearHighlight();
-            if (playingBtn) {
-                playingBtn.classList.remove('active');
-                playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
             }
 
             const queue = buildTTSQueue(card);
             if (queue.length === 0) return;
 
-            playingBtn = btn;
-            playingBtn.classList.add('active');
-            playingBtn.innerHTML = '<span class="icon">⏹️</span> 停止';
+            const titleEl = card.querySelector('.chapter-title') || card.querySelector('.chapter-num-label');
+            const chapterTitle = titleEl ? titleEl.textContent.trim() : '章節內容';
 
-            let currentIndex = 0;
-            
-            function speakNext() {
-                if (currentIndex >= queue.length || playingBtn !== btn) {
-                    if (playingBtn === btn) {
-                        clearHighlight();
-                        playingBtn.classList.remove('active');
-                        playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
-                        playingBtn = null;
-                    }
-                    return;
-                }
-                
-                const currentItem = queue[currentIndex];
-                window._currentUtterance = new SpeechSynthesisUtterance(currentItem.text);
-                window._currentUtterance.lang = 'zh-TW';
-                window._currentUtterance.rate = 1.0;
-                
-                window._currentUtterance.onstart = () => {
-                    clearHighlight();
-                    currentHighlightedNode = currentItem.node;
-                    currentHighlightedNode.classList.add('tts-highlight');
-                    
-                    // Smoothly scroll the highlighted node into view if it's not fully visible
-                    const rect = currentHighlightedNode.getBoundingClientRect();
-                    const isVisible = (
-                        rect.top >= 0 &&
-                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-                    );
-                    if (!isVisible) {
-                        currentHighlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                };
-
-                window._currentUtterance.onend = () => {
-                    currentIndex++;
-                    speakNext();
-                };
-                window._currentUtterance.onerror = () => {
-                    currentIndex++;
-                    speakNext();
-                };
-
-                synth.speak(window._currentUtterance);
-            }
-
-            // Wait a brief moment for the browser to fully flush the previous speech queue (Mobile bug fix)
-            setTimeout(() => {
-                speakNext();
-            }, 250);
+            TTSPlayer.start(btn, queue, chapterTitle);
         });
     });
 
