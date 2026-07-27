@@ -442,43 +442,27 @@ document.addEventListener('DOMContentLoaded', () => {
         window.speechSynthesis.cancel();
     });
 
-    /* ─── Exam Countdown Timer (PDCA Trial) ─── */
+    /* ─── Exam Countdown Timer (Days Only Pill) ─── */
     function initExamCountdown() {
         const targetDate = new Date('2026-09-05T15:00:00+08:00').getTime();
-        const daysEl  = document.getElementById('cd-days');
-        const hoursEl = document.getElementById('cd-hours');
-        const minsEl  = document.getElementById('cd-mins');
-        const secsEl  = document.getElementById('cd-secs');
+        const daysEl = document.getElementById('cd-days');
 
-        if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+        if (!daysEl) return;
 
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = targetDate - now;
 
             if (distance < 0) {
-                daysEl.textContent  = '00';
-                hoursEl.textContent = '00';
-                minsEl.textContent  = '00';
-                secsEl.textContent  = '00';
-                const noteEl = document.querySelector('.countdown-note');
-                if (noteEl) noteEl.textContent = '🔥 期末考進行中 / PDCA 試煉已登場！';
+                daysEl.textContent = '0';
                 return;
             }
 
-            const days  = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins  = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const secs  = Math.floor((distance % (1000 * 60)) / 1000);
-
-            daysEl.textContent  = days  < 10 ? '0' + days  : days;
-            hoursEl.textContent = hours < 10 ? '0' + hours : hours;
-            minsEl.textContent  = mins  < 10 ? '0' + mins  : mins;
-            secsEl.textContent  = secs  < 10 ? '0' + secs  : secs;
+            const days = Math.ceil(distance / (1000 * 60 * 60 * 24));
+            daysEl.textContent = days;
         }
 
         updateCountdown();
-        setInterval(updateCountdown, 1000);
     }
     initExamCountdown();
 });
