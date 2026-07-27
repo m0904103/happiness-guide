@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (node.nodeType === Node.ELEMENT_NODE) {
             const tag = node.tagName.toLowerCase();
             // Skip visually hidden items or non-content
-            if (node.classList.contains('chapter-tts-btn') || tag === 'script' || tag === 'style') return queue;
+            if (node.classList.contains('chapter-tts-btn') || node.classList.contains('trap-header') || tag === 'script' || tag === 'style') return queue;
 
             const isBlock = ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'th', 'td', 'div'].includes(tag);
             const hasBlockChildren = Array.from(node.children).some(child => 
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (n.nodeType === Node.TEXT_NODE) {
                         text += n.nodeValue;
                     } else if (n.nodeType === Node.ELEMENT_NODE) {
-                        if (n.classList.contains('chapter-tts-btn') || n.tagName.toLowerCase() === 'script' || n.tagName.toLowerCase() === 'style') return;
+                        if (n.classList.contains('chapter-tts-btn') || n.classList.contains('trap-header') || n.tagName.toLowerCase() === 'script' || n.tagName.toLowerCase() === 'style') return;
                         n.childNodes.forEach(extractClean);
                     }
                 }
