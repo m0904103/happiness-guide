@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         activeButton: null,
         highlightedNode: null,
         isPaused: false,
+        wakeLockObj: null,
         
         ui: {
             player: document.getElementById('tts-player'),
@@ -248,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         start(btn, queue, chapterTitle) {
             this.stop(); // Stop any current playback completely
+            this.requestWakeLock(); // Prevent screen sleep
             this.queue = queue;
             this.currentIndex = 0;
             this.activeButton = btn;
@@ -272,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.synth.cancel();
             this.clearHighlight();
             this.resetActiveButton();
+            this.releaseWakeLock(); // Allow screen sleep
             if (this.ui.player) this.ui.player.classList.add('hidden');
             this.queue = [];
             this.isPaused = false;
@@ -354,8 +357,38 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             this.synth.speak(window._currentUtterance);
+        },
+
+        async requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    this.wakeLockObj = await navigator.wakeLock.request('screen');
+                    this.wakeLockObj.addEventListener('release', () => {
+                        console.log('Screen Wake Lock released');
+                    });
+                    console.log('Screen Wake Lock acquired');
+                } catch (err) {
+                    console.error(`Wake Lock error: ${err.name}, ${err.message}`);
+                }
+            }
+        },
+
+        releaseWakeLock() {
+            if (this.wakeLockObj !== null) {
+                this.wakeLockObj.release()
+                    .then(() => {
+                        this.wakeLockObj = null;
+                    });
+            }
         }
     };
+
+    // Re-acquire wake lock if page becomes visible again while playing
+    document.addEventListener('visibilitychange', async () => {
+        if (TTSPlayer.wakeLockObj !== null && document.visibilityState === 'visible' && !TTSPlayer.isPaused && TTSPlayer.queue.length > 0) {
+            await TTSPlayer.requestWakeLock();
+        }
+    });
 
     // Initialize the player UI
     TTSPlayer.init();
