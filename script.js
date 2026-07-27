@@ -125,34 +125,61 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentUtterance = null;
     let playingBtn = null;
 
-    // Helper to extract text with natural pauses between blocks
-    function extractTextWithPauses(node) {
-        let text = '';
-        if (node.nodeType === Node.TEXT_NODE) {
-            text += node.nodeValue;
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
+    // Helper to build a queue of DOM nodes and their text for synchronized reading
+    function buildTTSQueue(node, queue = []) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
             const tag = node.tagName.toLowerCase();
             // Skip visually hidden items or non-content
-            if (node.classList.contains('chapter-tts-btn') || tag === 'script' || tag === 'style') return '';
-            
-            // TTS structural hints for tables and comparisons
-            if (node.classList.contains('trap-wrong') && node.parentElement && !node.parentElement.classList.contains('trap-header')) {
-                text += '考題陷阱是：';
-            }
-            if (node.classList.contains('trap-right') && node.parentElement && !node.parentElement.classList.contains('trap-header')) {
-                text += '正確解答是：';
-            }
+            if (node.classList.contains('chapter-tts-btn') || tag === 'script' || tag === 'style') return queue;
 
-            node.childNodes.forEach(child => {
-                text += extractTextWithPauses(child);
-            });
-            // Add pauses for block elements to ensure smooth reading
-            if (['p', 'div', 'li', 'h1', 'h2', 'h3', 'h4', 'br'].includes(tag)) {
-                text += '。';
+            const isBlock = ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'th', 'td', 'div'].includes(tag);
+            const hasBlockChildren = Array.from(node.children).some(child => 
+                ['p', 'li', 'h1', 'h2', 'h3', 'h4', 'th', 'td', 'div', 'ul', 'ol', 'table', 'tbody', 'tr'].includes(child.tagName.toLowerCase())
+            );
+
+            if (isBlock && !hasBlockChildren) {
+                let text = node.textContent;
+                
+                // Add prefixes
+                if (node.classList.contains('trap-wrong')) text = '考題陷阱是：' + text;
+                if (node.classList.contains('trap-right')) text = '正確解答是：' + text;
+
+                // Filter out emojis and symbols
+                const symbolsToRemove = [
+                    '❌', '✅', '💡', '⚠️', '🥇', '🥈', '🥉', '🇹🇼', '🎯', '🔄', '🌀', '🎵', '🏛️', '👨‍🏫', '👉', '📖', '🎧', '☰', '↑', '↓', '➔', '→',
+                    '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨',
+                    '＋', '📊', '📉', '📈', '🌍', '🎉', '🔺', '🇵🇹', '🇯🇵', '⚠', '🇼', '🇯', '🌙', '—', '×', '⬜', '️', '·'
+                ];
+                symbolsToRemove.forEach(sym => {
+                    text = text.split(sym).join('');
+                });
+
+                // Fix polyphone pronunciation (破音字修正)
+                const pronunciationDict = {
+                    '重塑': '蟲塑',
+                    '重來': '蟲來',
+                    '重建': '蟲建',
+                    '重拾': '蟲拾',
+                    '重新': '蟲新',
+                    '解方': '姐方',
+                    '少子高齡化': '勺紫高齡化',
+                    '少子化': '勺紫化'
+                };
+                for (const [wrong, right] of Object.entries(pronunciationDict)) {
+                    text = text.split(wrong).join(right);
+                }
+
+                if (text.trim().length > 0) {
+                    queue.push({ text: text.trim(), node: node });
+                }
+            } else {
+                node.childNodes.forEach(child => buildTTSQueue(child, queue));
             }
         }
-        return text;
+        return queue;
     }
+
+    let currentHighlightedNode = null;
 
     document.querySelectorAll('.chapter-tts-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -160,9 +187,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const synth = window.speechSynthesis;
             const card = btn.closest('.chapter-card');
             
+            // Cleanup function for highlighting
+            const clearHighlight = () => {
+                if (currentHighlightedNode) {
+                    currentHighlightedNode.classList.remove('tts-highlight');
+                    currentHighlightedNode = null;
+                }
+            };
+
             // If already playing this chapter, stop it
             if (playingBtn === btn) {
                 synth.cancel();
+                clearHighlight();
                 playingBtn.classList.remove('active');
                 playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
                 playingBtn = null;
@@ -171,47 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Stop any ongoing speech from other buttons
             synth.cancel();
+            clearHighlight();
             if (playingBtn) {
                 playingBtn.classList.remove('active');
                 playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
             }
 
-            // Extract text carefully with pauses
-            let rawText = extractTextWithPauses(card);
-
-            // Filter out emojis and symbols
-            const symbolsToRemove = [
-                '❌', '✅', '💡', '⚠️', '🥇', '🥈', '🥉', '🇹🇼', '🎯', '🔄', '🌀', '🎵', '🏛️', '👨‍🏫', '👉', '📖', '🎧', '☰', '↑', '↓', '➔', '→',
-                '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨',
-                '＋', '📊', '📉', '📈', '🌍', '🎉', '🔺', '🇵🇹', '🇯🇵', '⚠', '🇼', '🇯', '🌙', '—', '×', '⬜', '️', '·'
-            ];
-            symbolsToRemove.forEach(sym => {
-                rawText = rawText.split(sym).join('');
-            });
-
-            // Fix polyphone pronunciation (破音字修正)
-            const pronunciationDict = {
-                '重塑': '蟲塑',
-                '重來': '蟲來',
-                '重建': '蟲建',
-                '重拾': '蟲拾',
-                '重新': '蟲新',
-                '解方': '姐方',
-                '少子高齡化': '勺紫高齡化',
-                '少子化': '勺紫化'
-            };
-            for (const [wrong, right] of Object.entries(pronunciationDict)) {
-                rawText = rawText.split(wrong).join(right);
-            }
-
-            // Split into sentences
-            const sentences = rawText
-                .replace(/\s+/g, ' ') // Collapse whitespace
-                .split(/[。！？]/)
-                .map(s => s.trim())
-                .filter(s => s.length > 0);
-
-            if (sentences.length === 0) return;
+            const queue = buildTTSQueue(card);
+            if (queue.length === 0) return;
 
             playingBtn = btn;
             playingBtn.classList.add('active');
@@ -220,8 +223,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentIndex = 0;
             
             function speakNext() {
-                if (currentIndex >= sentences.length || playingBtn !== btn) {
+                if (currentIndex >= queue.length || playingBtn !== btn) {
                     if (playingBtn === btn) {
+                        clearHighlight();
                         playingBtn.classList.remove('active');
                         playingBtn.innerHTML = '<span class="icon">🔊</span> 聽本章';
                         playingBtn = null;
@@ -229,10 +233,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 
-                window._currentUtterance = new SpeechSynthesisUtterance(sentences[currentIndex]);
+                const currentItem = queue[currentIndex];
+                window._currentUtterance = new SpeechSynthesisUtterance(currentItem.text);
                 window._currentUtterance.lang = 'zh-TW';
                 window._currentUtterance.rate = 1.0;
                 
+                window._currentUtterance.onstart = () => {
+                    clearHighlight();
+                    currentHighlightedNode = currentItem.node;
+                    currentHighlightedNode.classList.add('tts-highlight');
+                    
+                    // Smoothly scroll the highlighted node into view if it's not fully visible
+                    const rect = currentHighlightedNode.getBoundingClientRect();
+                    const isVisible = (
+                        rect.top >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                    );
+                    if (!isVisible) {
+                        currentHighlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                };
+
                 window._currentUtterance.onend = () => {
                     currentIndex++;
                     speakNext();
