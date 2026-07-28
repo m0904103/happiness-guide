@@ -853,5 +853,20 @@
     </div>
 
     <script src="script.js?v=48"></script>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" style="position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; border-radius: 50%; background: var(--primary-color, #10b981); color: #fff; border: none; font-size: 1.5rem; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 9999; transition: all 0.3s ease;">
+      <span style="transform: translateY(-2px);">🔼</span>
+    </button>
+    <script>
+      window.addEventListener('scroll', function() {
+        var btn = document.getElementById('back-to-top');
+        if (window.scrollY > 500) {
+          btn.style.display = 'flex';
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+    </script>
 </body>
 </html>
