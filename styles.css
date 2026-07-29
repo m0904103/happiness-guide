@@ -1309,3 +1309,11 @@ html[data-theme="dark"] .case-header { color: var(--color-gold); }
     background: rgba(255, 255, 255, 0.16);
     transform: translateY(-2px);
 }
+
+
+/* Ensure sidebar items don't inherit any rogue backgrounds */
+.nav-links .nav-item[data-ch="audio"],
+.nav-links .nav-item[data-ch="concepts"] {
+    background: transparent !important;
+    box-shadow: none !important;
+}
